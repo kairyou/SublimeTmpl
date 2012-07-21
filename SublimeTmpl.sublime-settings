@@ -1,0 +1,40 @@
+{
+    "html": {
+        "syntax": "Packages/HTML/HTML.tmLanguage"
+        // ,"extension": "html" # default_extension
+    },
+    "js": {
+        "syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+    },
+    "css": {
+        "syntax": "Packages/CSS/CSS.tmLanguage"
+    },
+    "xml": {
+        "syntax": "Packages/XML/XML.tmLanguage"
+    },
+    "php": {
+        "syntax": "Packages/PHP/PHP.tmLanguage"
+        // ,"extension": "php"
+    },
+    "java": {
+        "syntax": "Packages/Java/Java.tmLanguage"
+    },
+    "ruby": {
+        "syntax": "Packages/Ruby/Ruby.tmLanguage"
+    },
+    "python": {
+        "syntax": "Packages/Python/Python.tmLanguage"
+    },
+    "objective-c": {
+        "syntax": "Packages/Objective-C/Objective-C.tmLanguage"
+    },
+    "c++": {
+        "syntax": "Packages/C++/C++.tmLanguage"
+    },
+    "C#": {
+        "syntax": "Packages/C#/C#.tmLanguage"
+    },
+    "Perl": {
+        "syntax": "Packages/Perl/Perl.tmLanguage"
+    }
+}
