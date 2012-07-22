@@ -45,8 +45,11 @@ Default key bindings
 
 Source: [https://github.com/kairyou/SublimeTmpl][0]
 
+Docs: [中文文档][4]
+
 Authors: [Kairyou][3]
 
  [0]: https://github.com/kairyou/SublimeTmpl
  [1]: http://wbond.net/sublime_packages/package_control
  [3]: http://www.fantxi.com/blog/
+ [4]: http://www.fantxi.com/blog/archives/sublime-template-engine-sublimetmpl/
