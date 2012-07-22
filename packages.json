@@ -1,10 +1,10 @@
 {
-    "schema_version": "1.0",
+    "schema_version": "1.2",
     "packages": [
         {
             "name": "SublimeTmpl",
             "description": "Create File From Templates for Sublime Text 2.",
-            "author": "Kairyou",
+            "author": "kairyou",
             "homepage": "https://github.com/kairyou/SublimeTmpl",
             "last_modified": "2012-07-22 13:24:58",
             "platforms": {
