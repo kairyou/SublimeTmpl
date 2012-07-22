@@ -1,0 +1,20 @@
+{
+    "schema_version": "1.0",
+    "packages": [
+        {
+            "name": "SublimeTmpl",
+            "description": "Create File From Templates for Sublime Text 2.",
+            "author": "Kairyou",
+            "homepage": "https://github.com/kairyou/SublimeTmpl",
+            "last_modified": "2012-07-22 13:24:58",
+            "platforms": {
+                "*": [
+                    {
+                        "version": "1.0.1",
+                        "url": "https://nodeload.github.com/kairyou/SublimeTmpl/zipball/master"
+                    }
+                ]
+            }
+        }
+    ]
+}
