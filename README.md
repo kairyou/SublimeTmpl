@@ -12,7 +12,7 @@ Go to the "Packages" directory (`Preferences` / `Browse Packages`). Then clone t
 
     $ git clone https://github.com/kairyou/SublimeTmpl.git
 
-**Package Control (todo)**
+**Package Control**
 
 - Install [Package Control][1]. Then `Package Control: Install Package`
 
