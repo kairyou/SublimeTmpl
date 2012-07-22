@@ -1,4 +1,4 @@
-*.pyc
-*.sublime-project
-*.thTheme.cache
-*.sublime-workspace
+/*.pyc
+/*.sublime-project
+/*.thTheme.cache
+/*.sublime-workspace
