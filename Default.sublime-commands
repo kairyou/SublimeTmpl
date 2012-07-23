@@ -16,11 +16,11 @@
         "args": {"type": "php"}
     },
     {
-        "caption": "Tmpl: Create ruby", "command": "sublime_tmpl",
-        "args": {"type": "ruby"}
-    },
-    {
         "caption": "Tmpl: Create python", "command": "sublime_tmpl",
         "args": {"type": "python"}
+    },
+    {
+        "caption": "Tmpl: Create ruby", "command": "sublime_tmpl",
+        "args": {"type": "ruby"}
     }
 ]

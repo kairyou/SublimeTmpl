@@ -35,6 +35,20 @@
                             "type": "php"
                         }
                     },
+                    {
+                        "caption": "python",
+                        "command": "sublime_tmpl",
+                        "args": {
+                            "type": "python"
+                        }
+                    },
+                    {
+                        "caption": "ruby",
+                        "command": "sublime_tmpl",
+                        "args": {
+                            "type": "ruby"
+                        }
+                    },
                     {"caption": "-"},
                     {
                         "command": "open_file",
