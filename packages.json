@@ -3,14 +3,14 @@
     "packages": [
         {
             "name": "SublimeTmpl",
-            "description": "Create File From Templates for Sublime Text 2.",
+            "description": "Create File From Templates for ST2/ST3.",
             "author": "kairyou",
             "homepage": "https://github.com/kairyou/SublimeTmpl",
-            "last_modified": "2012-07-22 13:24:58",
+            "last_modified": "2013-02-04 17:41:21",
             "platforms": {
                 "*": [
                     {
-                        "version": "1.0.1",
+                        "version": "1.0.2",
                         "url": "https://nodeload.github.com/kairyou/SublimeTmpl/zipball/master"
                     }
                 ]

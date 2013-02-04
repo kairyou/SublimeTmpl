@@ -1,7 +1,7 @@
 SublimeTmpl
 ===========
 
-A Sublime Text 2 plugin for create file from templates.
+A Sublime Text 2/3 plugin for create file from templates.
 
 Installation
 ------------
