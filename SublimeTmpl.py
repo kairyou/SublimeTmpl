@@ -1,3 +1,5 @@
+# + Python 3 support
+# + sublime text 3 support
 import os, sublime, sublime_plugin
 
 PACKAGE_NAME = 'SublimeTmpl'
@@ -14,10 +16,10 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
         
         self.tmpl_path = os.path.join(PACKAGE_NAME, TMLP_DIR, type + '.tmpl')
         file = os.path.join(PACKAGES_PATH, self.tmpl_path)
-        # print file
+        # print(file)
 
         opts = self.get_settings(type)
-        # print KEY_SYNTAX in data
+        # print(KEY_SYNTAX in opts)
         
         self.tab = self.creat_tab(view)
 
@@ -27,14 +29,14 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
 
     def get_settings(self, type):
         settings = sublime.load_settings(PACKAGE_NAME + '.sublime-settings')
-        # print settings.get('html')['syntax']
+        # print(settings.get('html')['syntax'])
         opts = settings.get(type, [])
-        # print opts
+        # print(opts)
         return opts
 
     def get_code(self, file):
         code = ''
-        # print os.path.exists(file)
+        # print(os.path.exists(file))
         if not os.path.exists(file):
             # error_message
             sublime.message_dialog('[Warning] No such file: ' + self.tmpl_path)
@@ -42,7 +44,7 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
             fp = open(file, 'r')
             code = fp.read()
             fp.close()
-            # print code
+            # print(code)
         return code
 
     def creat_tab(self, view):
@@ -59,22 +61,22 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
 
         # set syntax from current file
         # syntax = view.settings().get('syntax')
-        # print syntax
+        # print(syntax)
         # tab.set_syntax_file('Packages/Diff/Diff.tmLanguage')
         # tab.set_syntax_file(syntax)
 
         # insert codes
-        edit = tab.begin_edit()
+        # edit = tab.begin_edit() # ST3: view.begin_edit removed
         # tab.insert(edit, 0, code)
         tab.run_command("insert_snippet", {'contents': code})
-        tab.end_edit(edit)
+        # tab.end_edit(edit)
 
     def set_syntax(self, opts):
         v = self.tab
         # set syntax from current file
         # syntax = self.view.settings().get('syntax')
 
-        # print opts[KEY_FILE_EXT]
+        # print(opts[KEY_FILE_EXT])
         # ext = opts[KEY_FILE_EXT] if KEY_FILE_EXT in opts else 'txt'
         # v.settings().set('default_extension', ext)
         if KEY_FILE_EXT in opts:
@@ -82,5 +84,5 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
 
 
         syntax = opts[KEY_SYNTAX] if KEY_SYNTAX in opts else ''
-        # print syntax
+        # print(syntax)
         v.set_syntax_file(syntax)
