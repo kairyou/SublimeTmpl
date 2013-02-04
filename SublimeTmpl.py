@@ -6,16 +6,16 @@ PACKAGE_NAME = 'SublimeTmpl'
 TMLP_DIR = 'templates'
 KEY_SYNTAX = 'syntax'
 KEY_FILE_EXT = 'extension'
-PACKAGES_PATH = sublime.packages_path()
 
 class SublimeTmplCommand(sublime_plugin.TextCommand):
 
 
     def run(self, edit, type = 'html'):
         view = self.view
-        
+        packages = sublime.packages_path()
+
         self.tmpl_path = os.path.join(PACKAGE_NAME, TMLP_DIR, type + '.tmpl')
-        file = os.path.join(PACKAGES_PATH, self.tmpl_path)
+        file = os.path.join(packages, self.tmpl_path)
         # print(file)
 
         opts = self.get_settings(type)
@@ -36,7 +36,7 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
 
     def get_code(self, file):
         code = ''
-        # print(os.path.exists(file))
+        # print(file, os.path.exists(file))
         if not os.path.exists(file):
             # error_message
             sublime.message_dialog('[Warning] No such file: ' + self.tmpl_path)
