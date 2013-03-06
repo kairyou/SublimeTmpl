@@ -9,11 +9,12 @@ TMLP_DIR = 'templates'
 KEY_SYNTAX = 'syntax'
 KEY_FILE_EXT = 'extension'
 
-PACKAGES_PATH = sublime.packages_path()
+base_path = os.path.abspath(os.path.dirname(__file__))
+packages_path = sublime.packages_path() or os.path.dirname(base_path)
 
-IS_GTE_ST3 = int(sublime.version()[0]) >= 3
+is_gte_st3 = int(sublime.version()[0]) >= 3
 
-# TARGET_PATH = os.path.join(PACKAGES_PATH, PACKAGE_NAME)
+# TARGET_PATH = os.path.join(packages_path, PACKAGE_NAME)
 # if not os.path.isdir(TARGET_PATH):
 #     os.makedirs(TARGET_PATH)
 
@@ -41,8 +42,8 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
         code = ''
         file_name = type + '.tmpl'
         isIOError = False
-        # print(PACKAGES_PATH)
-        if IS_GTE_ST3:
+        # print(packages_path)
+        if is_gte_st3:
             self.tmpl_path = 'Packages/' + PACKAGE_NAME + '/' + TMLP_DIR + '/' + file_name
             try:
                code = sublime.load_resource(self.tmpl_path)
@@ -51,7 +52,7 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
                 isIOError = True
         else:
             self.tmpl_path = os.path.join(PACKAGE_NAME, TMLP_DIR, file_name)
-            file = os.path.join(PACKAGES_PATH, self.tmpl_path)
+            file = os.path.join(packages_path, self.tmpl_path)
             if not os.path.exists(file):
                 isIOError = True
             else:
