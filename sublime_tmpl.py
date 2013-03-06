@@ -9,8 +9,7 @@ TMLP_DIR = 'templates'
 KEY_SYNTAX = 'syntax'
 KEY_FILE_EXT = 'extension'
 
-BASE_PATH = os.path.abspath(os.path.dirname(__file__))
-PACKAGES_PATH = sublime.packages_path() or os.path.dirname(BASE_PATH)
+PACKAGES_PATH = sublime.packages_path()
 
 IS_GTE_ST3 = int(sublime.version()[0]) >= 3
 
