@@ -1,8 +1,8 @@
 # + Python 3 support
 # + sublime text 3 support
-import os
 import sublime
 import sublime_plugin
+import os
 
 PACKAGE_NAME = 'SublimeTmpl'
 TMLP_DIR = 'templates'
