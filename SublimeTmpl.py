@@ -7,23 +7,19 @@ TMLP_DIR = 'templates'
 KEY_SYNTAX = 'syntax'
 KEY_FILE_EXT = 'extension'
 
-class SublimeTmplCommand(sublime_plugin.TextCommand):
+packages_path = sublime.packages_path()
+is_gte_st3 = int(sublime.version()[0]) >= 3
 
+class SublimeTmplCommand(sublime_plugin.TextCommand):
 
     def run(self, edit, type = 'html'):
         view = self.view
-        packages = sublime.packages_path()
-
-        self.tmpl_path = os.path.join(PACKAGE_NAME, TMLP_DIR, type + '.tmpl')
-        file = os.path.join(packages, self.tmpl_path)
-        # print(file)
-
         opts = self.get_settings(type)
+        tmpl = self.get_code(type)
+
         # print(KEY_SYNTAX in opts)
-        
         self.tab = self.creat_tab(view)
 
-        tmpl = self.get_code(file)
         self.set_syntax(opts)
         self.set_code(tmpl)
 
@@ -34,17 +30,30 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
         # print(opts)
         return opts
 
-    def get_code(self, file):
+    def get_code(self, type):
         code = ''
-        # print(file, os.path.exists(file))
-        if not os.path.exists(file):
-            # error_message
-            sublime.message_dialog('[Warning] No such file: ' + self.tmpl_path)
+        file_name = type + '.tmpl'
+        isIOError = False
+        print(packages_path)
+        if is_gte_st3:
+            self.tmpl_path = 'Packages/' + PACKAGE_NAME + '/' + TMLP_DIR + '/' + file_name
+            try:
+               code = sublime.load_resource(self.tmpl_path)
+            except Exception as exception:
+                # print(exception)
+                isIOError = True
         else:
-            fp = open(file, 'r')
-            code = fp.read()
-            fp.close()
-            # print(code)
+            self.tmpl_path = os.path.join(PACKAGE_NAME, TMLP_DIR, file_name)
+            file = os.path.join(packages_path, self.tmpl_path)
+            if not os.path.exists(file):
+                isIOError = True
+            else:
+                fp = open(file, 'r')
+                code = fp.read()
+                fp.close()
+        # print(self.tmpl_path)
+        if isIOError:
+            sublime.message_dialog('[Warning] No such file: ' + self.tmpl_path)
         return code
 
     def creat_tab(self, view):
@@ -54,35 +63,17 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
 
     def set_code(self, code):
         tab = self.tab
-
-        # 'untitled.' + type
-        # tab.set_name('')
-        tab.set_name('')
-
-        # set syntax from current file
-        # syntax = view.settings().get('syntax')
-        # print(syntax)
-        # tab.set_syntax_file('Packages/Diff/Diff.tmLanguage')
-        # tab.set_syntax_file(syntax)
-
+        # tab.set_name('untitled.' + self.type)
         # insert codes
-        # edit = tab.begin_edit() # ST3: view.begin_edit removed
-        # tab.insert(edit, 0, code)
-        tab.run_command("insert_snippet", {'contents': code})
-        # tab.end_edit(edit)
+        tab.run_command('insert_snippet', {'contents': code})
 
     def set_syntax(self, opts):
         v = self.tab
-        # set syntax from current file
-        # syntax = self.view.settings().get('syntax')
+        # syntax = self.view.settings().get('syntax') # syntax from current file
+        syntax = opts[KEY_SYNTAX] if KEY_SYNTAX in opts else ''
+        # print(syntax) # tab.set_syntax_file('Packages/Diff/Diff.tmLanguage')
+        v.set_syntax_file(syntax)
 
         # print(opts[KEY_FILE_EXT])
-        # ext = opts[KEY_FILE_EXT] if KEY_FILE_EXT in opts else 'txt'
-        # v.settings().set('default_extension', ext)
         if KEY_FILE_EXT in opts:
             v.settings().set('default_extension', opts[KEY_FILE_EXT])
-
-
-        syntax = opts[KEY_SYNTAX] if KEY_SYNTAX in opts else ''
-        # print(syntax)
-        v.set_syntax_file(syntax)
