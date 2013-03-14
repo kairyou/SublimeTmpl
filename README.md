@@ -37,10 +37,10 @@ Default key bindings
 
     ctrl+alt+h html
     ctrl+alt+j javascript
-    ctrl+alt+j css
+    ctrl+alt+c css
     ctrl+alt+p php
     ctrl+alt+r ruby
-    ctrl+alt++shift+p python
+    ctrl+alt+shift+p python
 
 
 Source: [https://github.com/kairyou/SublimeTmpl][0]
