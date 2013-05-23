@@ -36,5 +36,11 @@
     },
     "Perl": {
         "syntax": "Packages/Perl/Perl.tmLanguage"
+    },
+    "date_format" : "%Y-%m-%d %H:%M:%S",
+    "attr": {
+        "author": "vfasky" ,
+        "email": "vfasky@gmail.com",
+        "link": "http://vfasky.com"
     }
 }
