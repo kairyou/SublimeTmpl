@@ -1,9 +1,11 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 # + Python 3 support
 # + sublime text 3 support
 
 import sublime, sublime_plugin
 import sys, os
-
+import datetime
 import zipfile
 
 PACKAGE_NAME = 'SublimeTmpl'
@@ -33,8 +35,12 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
         self.set_syntax(opts)
         self.set_code(tmpl)
 
-    def get_settings(self, type):
+    def get_settings(self, type=None):
         settings = sublime.load_settings(PACKAGE_NAME + '.sublime-settings')
+        
+        if not type :
+            return settings
+
         # print(settings.get('html')['syntax'])
         opts = settings.get(type, [])
         # print(opts)
@@ -42,28 +48,56 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
 
     def get_code(self, type):
         code = ''
-        file_name = type + '.tmpl'
+        user_file_name = "%s.user.tmpl" % type
+        file_name = "%s.tmpl" % type
         isIOError = False
-        # print(PACKAGES_PATH)
+        
         if IS_GTE_ST3:
-            self.tmpl_path = 'Packages/' + PACKAGE_NAME + '/' + TMLP_DIR + '/' + file_name
+            self.tmpl_path = 'Packages/' + PACKAGE_NAME + '/' + TMLP_DIR + '/' + user_file_name
             try:
                code = sublime.load_resource(self.tmpl_path)
             except Exception as exception:
-                # print(exception)
-                isIOError = True
+                try:
+                    self.tmpl_path = 'Packages/' + PACKAGE_NAME + '/' + TMLP_DIR + '/' + file_name
+                    code = sublime.load_resource(self.tmpl_path)
+                except Exception as exception:
+                    isIOError = True
+            
         else:
+            self.user_tmpl_path = os.path.join(PACKAGE_NAME, TMLP_DIR, user_file_name)
             self.tmpl_path = os.path.join(PACKAGE_NAME, TMLP_DIR, file_name)
-            file = os.path.join(PACKAGES_PATH, self.tmpl_path)
-            if not os.path.exists(file):
-                isIOError = True
-            else:
-                fp = open(file, 'r')
+            tpl_file = os.path.join(PACKAGES_PATH, self.tmpl_path)
+            user_tpl_file = os.path.join(PACKAGES_PATH, self.user_tmpl_path)
+
+            if os.path.isfile(user_tpl_file):
+                fp = open(user_tpl_file, 'r')
                 code = fp.read()
                 fp.close()
-        # print(self.tmpl_path)
+            elif os.path.isfile(tpl_file):
+                fp = open(tpl_file, 'r')
+                code = fp.read()
+                fp.close()
+            else:
+                isIOError = True
+           
+            
+        # # print(self.tmpl_path)
         if isIOError:
             sublime.message_dialog('[Warning] No such file: ' + self.tmpl_path)
+        
+        return self.format_tag(code)
+
+    def format_tag(self, code):
+        # 格式化标签
+        settings = self.get_settings()
+        
+        date = datetime.datetime.now().strftime(settings.get('date_format', '%Y-%m-%d')) 
+        
+        code = code.replace('${date}', date)
+
+        attr = settings.get('attr', {})
+        for key in attr:
+            code = code.replace('${%s}' % key, attr.get(key, ''))
         return code
 
     def creat_tab(self, view):
