@@ -58,9 +58,9 @@ Default key bindings
     > 
     ``` json
     "attr": {
-        "author": "vfasky" ,
-        "email": "vfasky@gmail.com",
-        "link": "http://vfasky.com",
+        "author": "Your Name" ,
+        "email": "you@example.org",
+        "link": "http://example.org"
         "hello": "word"
     }
 ``` 
