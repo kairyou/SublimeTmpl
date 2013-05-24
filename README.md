@@ -14,9 +14,7 @@ Go to the "Packages" directory (`Preferences` / `Browse Packages`). Then clone t
 
 **Package Control**
 
-- Install [Package Control][1]. Then `Package Control: Install Package`
-
-- look for `SublimeTmpl` and install it.
+Install [Package Control][1]. Then `Package Control: Install Package`, look for `SublimeTmpl` / `tmpl` and install it.
 
 Usage
 -----
@@ -44,43 +42,48 @@ Default key bindings
     ctrl+alt+r ruby
     ctrl+alt+shift+p python
 
-## 新增特性：
+## Features added
 
-### 支持用户自定义模板
+- custom template
 
-> 如: `python.tmpl` 的自定义模板为 `python.user.tmpl`
+    > e.g., the filename for custom python template is `python.user.tmpl`
 
-### 模板支持 `${date}` 变量
+- `*.tmpl` file support `${date}` variable
 
-> 用于显示当前时间
+    > default "date_format" : "%Y-%m-%d %H:%M:%S" (It is recommended to custom settings in `settings - user`)
 
-### 模板支持自定义 attr
+- custom variables: `attr`
 
-> 在配置文件中加入或更改对应的attr,就能在模板中调用
-
-如定义以下标签：
-
-``` json
-"attr": {
-    "author": "vfasky" ,
-    "email": "vfasky@gmail.com",
-    "link": "http://vfasky.com",
-    "hello": "word"
-}
+    > custom the attr variables in settings, example:
+    > 
+    ``` json
+    "attr": {
+        "author": "vfasky" ,
+        "email": "vfasky@gmail.com",
+        "link": "http://vfasky.com",
+        "hello": "word"
+    }
 ``` 
 
-就能在模板中使用 `${author}` `${email}` `${link}` `${hello}` 变量
+    > The `*.tmpl` file will support `${author}` `${email}` `${link}` `${hello}` variables.
 
 
+Authors
+-------
+* **Kairyou** ([Blog](http://www.fantxi.com/blog/) / [GitHub](https://github.com/kairyou))
+* **Vfasky** ([Blog](http://vfasky.com) / [GitHub](https://github.com/vfasky))
 
+FAQ
+---
+- SublimeTmpl not work after update the package.
+
+    Please open `Preferences` / `Settings - User`, remove "SublimeTmpl" from `ignored_packages`.
+
+--------------------
 Source: [https://github.com/kairyou/SublimeTmpl][0]
 
-Docs: [中文文档][4]
+Docs: [中文文档](http://www.fantxi.com/blog/archives/sublime-template-engine-sublimetmpl/)
 
-Authors: [Kairyou][3]
 
- [0]: https://github.com/kairyou/SublimeTmpl
- [1]: http://wbond.net/sublime_packages/package_control
- [3]: http://www.fantxi.com/blog/
- [4]: http://www.fantxi.com/blog/archives/sublime-template-engine-sublimetmpl/
-
+[0]: https://github.com/kairyou/SublimeTmpl
+[1]: http://wbond.net/sublime_packages/package_control

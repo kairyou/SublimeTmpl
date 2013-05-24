@@ -6,11 +6,11 @@
             "description": "Create File From Templates for ST2/ST3.",
             "author": "kairyou",
             "homepage": "https://github.com/kairyou/SublimeTmpl",
-            "last_modified": "2013-03-07 17:41:21",
+            "last_modified": "2013-05-24 12:00:00",
             "platforms": {
                 "*": [
                     {
-                        "version": "1.0.3",
+                        "version": "1.0.4",
                         "url": "https://nodeload.github.com/kairyou/SublimeTmpl/zipball/master"
                     }
                 ]

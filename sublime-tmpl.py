@@ -3,8 +3,10 @@
 # + Python 3 support
 # + sublime text 3 support
 
-import sublime, sublime_plugin
-import sys, os
+import sublime
+import sublime_plugin
+# import sys
+import os
 import datetime
 import zipfile
 
@@ -13,8 +15,9 @@ TMLP_DIR = 'templates'
 KEY_SYNTAX = 'syntax'
 KEY_FILE_EXT = 'extension'
 
-BASE_PATH = os.path.abspath(os.path.dirname(__file__)) #Installed Packages/xx.sublime-package
-PACKAGES_PATH = sublime.packages_path() # for ST2
+# st3: Installed Packages/xx.sublime-package
+BASE_PATH = os.path.abspath(os.path.dirname(__file__))
+PACKAGES_PATH = sublime.packages_path()  # for ST2
 
 # sys.path += [BASE_PATH]
 # sys.path.append(BASE_PATH)
@@ -22,9 +25,10 @@ PACKAGES_PATH = sublime.packages_path() # for ST2
 
 IS_GTE_ST3 = int(sublime.version()[0]) >= 3
 
+
 class SublimeTmplCommand(sublime_plugin.TextCommand):
 
-    def run(self, edit, type = 'html'):
+    def run(self, edit, type='html'):
         view = self.view
         opts = self.get_settings(type)
         tmpl = self.get_code(type)
@@ -37,8 +41,8 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
 
     def get_settings(self, type=None):
         settings = sublime.load_settings(PACKAGE_NAME + '.sublime-settings')
-        
-        if not type :
+
+        if not type:
             return settings
 
         # print(settings.get('html')['syntax'])
@@ -51,21 +55,23 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
         user_file_name = "%s.user.tmpl" % type
         file_name = "%s.tmpl" % type
         isIOError = False
-        
+
         if IS_GTE_ST3:
-            self.tmpl_path = 'Packages/' + PACKAGE_NAME + '/' + TMLP_DIR + '/' + user_file_name
+            tmpl_dir = 'Packages/' + PACKAGE_NAME + '/' + TMLP_DIR + '/'
+            self.tmpl_path = tmpl_dir + user_file_name
             try:
-               code = sublime.load_resource(self.tmpl_path)
-            except Exception as exception:
+                code = sublime.load_resource(self.tmpl_path)
+            except IOError:
+                self.tmpl_path = tmpl_dir + file_name
                 try:
-                    self.tmpl_path = 'Packages/' + PACKAGE_NAME + '/' + TMLP_DIR + '/' + file_name
                     code = sublime.load_resource(self.tmpl_path)
-                except Exception as exception:
+                except IOError:
                     isIOError = True
-            
+
         else:
-            self.user_tmpl_path = os.path.join(PACKAGE_NAME, TMLP_DIR, user_file_name)
-            self.tmpl_path = os.path.join(PACKAGE_NAME, TMLP_DIR, file_name)
+            tmpl_dir = os.path.join(PACKAGE_NAME, TMLP_DIR)
+            self.user_tmpl_path = os.path.join(tmpl_dir, user_file_name)
+            self.tmpl_path = os.path.join(tmpl_dir, file_name)
             tpl_file = os.path.join(PACKAGES_PATH, self.tmpl_path)
             user_tpl_file = os.path.join(PACKAGES_PATH, self.user_tmpl_path)
 
@@ -79,20 +85,19 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
                 fp.close()
             else:
                 isIOError = True
-           
-            
-        # # print(self.tmpl_path)
+
+        # print(self.tmpl_path)
         if isIOError:
             sublime.message_dialog('[Warning] No such file: ' + self.tmpl_path)
-        
+
         return self.format_tag(code)
 
     def format_tag(self, code):
-        # 格式化标签
+        # format
         settings = self.get_settings()
-        
-        date = datetime.datetime.now().strftime(settings.get('date_format', '%Y-%m-%d')) 
-        
+        format = settings.get('date_format', '%Y-%m-%d')
+        date = datetime.datetime.now().strftime(format)
+
         code = code.replace('${date}', date)
 
         attr = settings.get('attr', {})
@@ -113,7 +118,7 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
 
     def set_syntax(self, opts):
         v = self.tab
-        # syntax = self.view.settings().get('syntax') # syntax from current file
+        # syntax = self.view.settings().get('syntax') # from current file
         syntax = opts[KEY_SYNTAX] if KEY_SYNTAX in opts else ''
         # print(syntax) # tab.set_syntax_file('Packages/Diff/Diff.tmLanguage')
         v.set_syntax_file(syntax)
@@ -122,8 +127,8 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
         if KEY_FILE_EXT in opts:
             v.settings().set('default_extension', opts[KEY_FILE_EXT])
 
-# for ST3 >= 3016
-def plugin_loaded():
+
+def plugin_loaded():  # for ST3 >= 3016
     # global PACKAGES_PATH
     PACKAGES_PATH = sublime.packages_path()
     TARGET_PATH = os.path.join(PACKAGES_PATH, PACKAGE_NAME)
@@ -136,18 +141,20 @@ def plugin_loaded():
         # copy user files
         tmpl_dir = TMLP_DIR + '/'
         file_list = [
-        'Default.sublime-commands', 'Main.sublime-menu',
-        # if don't copy .py, ST3 throw an exception: ImportError: No module named
-        'sublime-tmpl.py', 
-        'README.md',
-        tmpl_dir + 'css.tmpl', tmpl_dir + 'html.tmpl', tmpl_dir + 'js.tmpl',
-        tmpl_dir + 'php.tmpl', tmpl_dir + 'python.tmpl', tmpl_dir + 'ruby.tmpl',
-        tmpl_dir + 'xml.tmpl'
+            'Default.sublime-commands', 'Main.sublime-menu',
+            # if don't copy .py, ST3 throw: ImportError: No module named
+            'sublime-tmpl.py',
+            'README.md',
+            tmpl_dir + 'css.tmpl', tmpl_dir + 'html.tmpl',
+            tmpl_dir + 'js.tmpl', tmpl_dir + 'php.tmpl',
+            tmpl_dir + 'python.tmpl', tmpl_dir + 'ruby.tmpl',
+            tmpl_dir + 'xml.tmpl'
         ]
         try:
             extract_zip_resource(BASE_PATH, file_list, TARGET_PATH)
         except Exception as e:
             print(e)
+
 
 def extract_zip_resource(path_to_zip, file_list, extract_dir=None):
     if extract_dir is None:
