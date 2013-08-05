@@ -44,7 +44,10 @@ Default key bindings
 
 ## Features added
 
-- custom template
+- custom template path  
+
+    > "custom_path": "/Users/yourName/templates",
+- custom user's template file
 
     > e.g., the filename for custom python template is `python.user.tmpl`
 

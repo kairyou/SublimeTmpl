@@ -50,39 +50,53 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
         # print(opts)
         return opts
 
+    def open_file(self, path, mode='r'):
+        fp = open(path, mode) 
+        code = fp.read()
+        fp.close()
+        return code
+
     def get_code(self, type):
+        settings = self.get_settings()
+        custom_path = settings.get('custom_path', '')
         code = ''
         user_file_name = "%s.user.tmpl" % type
         file_name = "%s.tmpl" % type
         isIOError = False
 
-        if IS_GTE_ST3:
-            tmpl_dir = 'Packages/' + PACKAGE_NAME + '/' + TMLP_DIR + '/'
-            self.tmpl_path = tmpl_dir + user_file_name
-            try:
-                code = sublime.load_resource(self.tmpl_path)
-            except IOError:
-                self.tmpl_path = tmpl_dir + file_name
-                try:
-                    code = sublime.load_resource(self.tmpl_path)
-                except IOError:
-                    isIOError = True
-
+        if custom_path:
+            tmpl_dir = custom_path;
         else:
-            tmpl_dir = os.path.join(PACKAGE_NAME, TMLP_DIR)
-            self.user_tmpl_path = os.path.join(tmpl_dir, user_file_name)
-            self.tmpl_path = os.path.join(tmpl_dir, file_name)
-            tpl_file = os.path.join(PACKAGES_PATH, self.tmpl_path)
-            user_tpl_file = os.path.join(PACKAGES_PATH, self.user_tmpl_path)
+            if IS_GTE_ST3:
+                # tmpl_dir = 'Packages/' + PACKAGE_NAME + '/' + TMLP_DIR + '/'
+                tmpl_dir = os.path.join('Packages', PACKAGE_NAME , TMLP_DIR)
+            else:
+                tmpl_dir = os.path.join(PACKAGES_PATH, PACKAGE_NAME, TMLP_DIR)
 
-            if os.path.isfile(user_tpl_file):
-                fp = open(user_tpl_file, 'r')
-                code = fp.read()
-                fp.close()
-            elif os.path.isfile(tpl_file):
-                fp = open(tpl_file, 'r')
-                code = fp.read()
-                fp.close()
+        self.user_tmpl_path = os.path.join(tmpl_dir, user_file_name)
+        self.tmpl_path = os.path.join(tmpl_dir, file_name)
+
+        if IS_GTE_ST3:
+            if custom_path:
+                if os.path.isfile(self.user_tmpl_path):
+                    code = self.open_file(self.user_tmpl_path);
+                elif os.path.isfile(self.tmpl_path):
+                    code = self.open_file(self.tmpl_path);
+                else:
+                    isIOError = True
+            else:
+                try:
+                    code = sublime.load_resource(self.user_tmpl_path)
+                except IOError:
+                    try:
+                        code = sublime.load_resource(self.tmpl_path)
+                    except IOError:
+                        isIOError = True
+        else:
+            if os.path.isfile(self.user_tmpl_path):
+                code = self.open_file(self.user_tmpl_path);
+            elif os.path.isfile(self.tmpl_path):
+                code = self.open_file(self.tmpl_path);
             else:
                 isIOError = True
 
