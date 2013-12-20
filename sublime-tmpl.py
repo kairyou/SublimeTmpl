@@ -51,7 +51,7 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
         return opts
 
     def open_file(self, path, mode='r'):
-        fp = open(path, mode) 
+        fp = open(path, mode)
         code = fp.read()
         fp.close()
         return code
@@ -65,7 +65,7 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
         isIOError = False
 
         if custom_path:
-            tmpl_dir = custom_path;
+            tmpl_dir = custom_path
         else:
             if IS_GTE_ST3:
                 tmpl_dir = 'Packages/' + PACKAGE_NAME + '/' + TMLP_DIR + '/'
@@ -79,9 +79,9 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
         if IS_GTE_ST3:
             if custom_path:
                 if os.path.isfile(self.user_tmpl_path):
-                    code = self.open_file(self.user_tmpl_path);
+                    code = self.open_file(self.user_tmpl_path)
                 elif os.path.isfile(self.tmpl_path):
-                    code = self.open_file(self.tmpl_path);
+                    code = self.open_file(self.tmpl_path)
                 else:
                     isIOError = True
             else:
@@ -94,9 +94,9 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
                         isIOError = True
         else:
             if os.path.isfile(self.user_tmpl_path):
-                code = self.open_file(self.user_tmpl_path);
+                code = self.open_file(self.user_tmpl_path)
             elif os.path.isfile(self.tmpl_path):
-                code = self.open_file(self.tmpl_path);
+                code = self.open_file(self.tmpl_path)
             else:
                 isIOError = True
 
