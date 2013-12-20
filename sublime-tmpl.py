@@ -63,11 +63,13 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
 
         if IS_GTE_ST3:
             tmpl_dir = 'Packages/' + PACKAGE_NAME + '/' + TMLP_DIR + '/'
+            user_tmpl_dir = 'Packages/User/' + \
+                PACKAGE_NAME + '/' + TMLP_DIR + '/'
             # tmpl_dir = os.path.join('Packages', PACKAGE_NAME , TMLP_DIR)
         else:
             tmpl_dir = os.path.join(PACKAGES_PATH, PACKAGE_NAME, TMLP_DIR)
-
-        user_tmpl_dir = 'Packages/User/' + PACKAGE_NAME + '/' + TMLP_DIR + '/'
+            user_tmpl_dir = os.path.join(
+                PACKAGES_PATH, 'User', PACKAGE_NAME, TMLP_DIR)
 
         self.user_tmpl_path = os.path.join(user_tmpl_dir, file_name)
         self.tmpl_path = os.path.join(tmpl_dir, file_name)
