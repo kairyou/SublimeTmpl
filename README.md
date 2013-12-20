@@ -44,12 +44,9 @@ Default key bindings
 
 ## Features added
 
-- custom template path  
+- custom template files
 
-    > "custom_path": "/Users/yourName/templates",
-- custom user's template file
-
-    > e.g., the filename for custom python template is `python.user.tmpl`
+    > put your custom template files in `Packages/User/SublimeTmpl/templates`  
 
 - `*.tmpl` file support `${date}` variable
 
@@ -75,6 +72,7 @@ Authors
 -------
 * **Kairyou** ([Blog](http://www.fantxi.com/blog/) / [GitHub](https://github.com/kairyou))
 * **Vfasky** ([Blog](http://vfasky.com) / [GitHub](https://github.com/vfasky))
+* **Xu Cheng** ([Github](https://github.com/xu-cheng))
 
 FAQ
 ---
