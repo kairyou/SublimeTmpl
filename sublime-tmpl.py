@@ -103,7 +103,8 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
         settings = self.get_settings()
         format = settings.get('date_format', '%Y-%m-%d')
         date = datetime.datetime.now().strftime(format)
-
+        if not IS_GTE_ST3:
+            code = code.decode('utf8') # for st2 && Chinese characters
         code = code.replace('${date}', date)
 
         attr = settings.get('attr', {})
