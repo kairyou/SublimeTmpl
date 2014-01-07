@@ -51,58 +51,49 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
         return opts
 
     def open_file(self, path, mode='r'):
-        fp = open(path, mode) 
+        fp = open(path, mode)
         code = fp.read()
         fp.close()
         return code
 
     def get_code(self, type):
-        settings = self.get_settings()
-        custom_path = settings.get('custom_path', '')
         code = ''
-        user_file_name = "%s.user.tmpl" % type
         file_name = "%s.tmpl" % type
         isIOError = False
 
-        if custom_path:
-            tmpl_dir = custom_path;
+        if IS_GTE_ST3:
+            tmpl_dir = 'Packages/' + PACKAGE_NAME + '/' + TMLP_DIR + '/'
+            user_tmpl_dir = 'Packages/User/' + \
+                PACKAGE_NAME + '/' + TMLP_DIR + '/'
+            # tmpl_dir = os.path.join('Packages', PACKAGE_NAME , TMLP_DIR)
         else:
-            if IS_GTE_ST3:
-                tmpl_dir = 'Packages/' + PACKAGE_NAME + '/' + TMLP_DIR + '/'
-                # tmpl_dir = os.path.join('Packages', PACKAGE_NAME , TMLP_DIR)
-            else:
-                tmpl_dir = os.path.join(PACKAGES_PATH, PACKAGE_NAME, TMLP_DIR)
+            tmpl_dir = os.path.join(PACKAGES_PATH, PACKAGE_NAME, TMLP_DIR)
+            user_tmpl_dir = os.path.join(
+                PACKAGES_PATH, 'User', PACKAGE_NAME, TMLP_DIR)
 
-        self.user_tmpl_path = os.path.join(tmpl_dir, user_file_name)
+        self.user_tmpl_path = os.path.join(user_tmpl_dir, file_name)
         self.tmpl_path = os.path.join(tmpl_dir, file_name)
 
         if IS_GTE_ST3:
-            if custom_path:
-                if os.path.isfile(self.user_tmpl_path):
-                    code = self.open_file(self.user_tmpl_path);
-                elif os.path.isfile(self.tmpl_path):
-                    code = self.open_file(self.tmpl_path);
-                else:
-                    isIOError = True
-            else:
+            try:
+                code = sublime.load_resource(self.user_tmpl_path)
+            except IOError:
                 try:
-                    code = sublime.load_resource(self.user_tmpl_path)
+                    code = sublime.load_resource(self.tmpl_path)
                 except IOError:
-                    try:
-                        code = sublime.load_resource(self.tmpl_path)
-                    except IOError:
-                        isIOError = True
+                    isIOError = True
         else:
             if os.path.isfile(self.user_tmpl_path):
-                code = self.open_file(self.user_tmpl_path);
+                code = self.open_file(self.user_tmpl_path)
             elif os.path.isfile(self.tmpl_path):
-                code = self.open_file(self.tmpl_path);
+                code = self.open_file(self.tmpl_path)
             else:
                 isIOError = True
 
         # print(self.tmpl_path)
         if isIOError:
-            sublime.message_dialog('[Warning] No such file: ' + self.tmpl_path)
+            sublime.message_dialog('[Warning] No such file: ' + self.tmpl_path
+                                   + ' or ' + self.user_tmpl_path)
 
         return self.format_tag(code)
 
