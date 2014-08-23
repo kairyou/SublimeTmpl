@@ -80,7 +80,7 @@ Sublime Text keeps settings in bunch of files in a folder. For example, OS X, it
 
 You can navigate to it easily by using the following menu item in Sublime, for example: `Sublime Text>Preferences>Settings-User`
 
-Now go to `Packages\SublimeTemp` folder and open the file SublimeTmpl.sublime-settings.  Everything except the variables that are custom to you and save the file with the same file name under `Packages\User`.  By the time you are finished, the file might look as simple as this (JSON format):
+Now go to `Packages\SublimeTemp` folder and open the file SublimeTmpl.sublime-settings.  Save the file with the same file name under `Packages\User`. Delete everything except the variables that are custom to you. By the time you are finished, the file might look as simple as this (JSON format):
 ```
 {
     "attr": {
@@ -90,7 +90,7 @@ Now go to `Packages\SublimeTemp` folder and open the file SublimeTmpl.sublime-se
 }
 ```
 
-If you don't want the  `"link"` and `"hello"` variables to show up, you should move the (for example) python.templ file to `Packages/User/SublimeTmpl/templates` and remove those elements from it.  
+If you don't want the  `"link"` and `"hello"` variables to show up, you should copy the (for example) python.templ file to `Packages/User/SublimeTmpl/templates` and remove those elements from it.  
 
 
 Authors
