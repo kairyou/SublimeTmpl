@@ -44,6 +44,17 @@ Default key bindings
     ctrl+alt+r ruby
     ctrl+alt+shift+p python
 
+**Disable shortcuts**
+
+If you’re unhappy with default keymap, you can disable keyboard shortcuts with `disable_keymap_actions` preference of `SublimeTmpl.sublime-settings`.
+
+Use a comma-separated list of action names which default keyboard shortcuts should be disabled. For example, if you want to disable creat `html` and `css` shortcuts, your must set the following value:
+
+    "disabled_keymap_actions": "html, css"
+
+To disable all default shortcuts, set value to `all`.
+
+
 ## Features added
 
 - custom template files

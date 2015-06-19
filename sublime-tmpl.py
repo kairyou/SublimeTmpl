@@ -10,6 +10,7 @@ import os
 import glob
 import datetime
 import zipfile
+import re
 
 PACKAGE_NAME = 'SublimeTmpl'
 TMLP_DIR = 'templates'
@@ -25,7 +26,7 @@ PACKAGES_PATH = sublime.packages_path()  # for ST2
 # import sys;print(sys.path)
 
 IS_GTE_ST3 = int(sublime.version()[0]) >= 3
-
+DISABLE_KEYMAP = None
 
 class SublimeTmplCommand(sublime_plugin.TextCommand):
 
@@ -33,6 +34,10 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
         view = self.view
         opts = self.get_settings(type)
         tmpl = self.get_code(type)
+
+        # print('global', DISABLE_KEYMAP, IS_GTE_ST3);
+        if DISABLE_KEYMAP:
+            return False
 
         # print(KEY_SYNTAX in opts)
         self.tab = self.creat_tab(view)
@@ -134,6 +139,25 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
         if KEY_FILE_EXT in opts:
             v.settings().set('default_extension', opts[KEY_FILE_EXT])
 
+class SublimeTmplEventListener(sublime_plugin.EventListener):
+    def on_query_context(self, view, key, operator, operand, match_all):
+        settings = sublime.load_settings(PACKAGE_NAME + '.sublime-settings')
+        disable_keymap_actions = settings.get('disable_keymap_actions', '')
+        # print ("key1: %s, %s" % (key, disable_keymap_actions))
+        global DISABLE_KEYMAP
+        DISABLE_KEYMAP = False;
+        if not key.startswith('sublime_tmpl.'):
+            return None
+        if not disable_keymap_actions: # no disabled actions
+            return True
+        elif disable_keymap_actions == 'all' or disable_keymap_actions == True: # disable all actions
+            DISABLE_KEYMAP = True;
+            return False
+        prefix, name = key.split('.')
+        ret = name not in re.split(r'\s*,\s*', disable_keymap_actions.strip())
+        # print(name, ret)
+        DISABLE_KEYMAP = True if not ret else False;
+        return ret
 
 def plugin_loaded():  # for ST3 >= 3016
     # global PACKAGES_PATH
