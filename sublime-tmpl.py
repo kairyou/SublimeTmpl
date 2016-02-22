@@ -104,6 +104,7 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
         return self.format_tag(code)
 
     def format_tag(self, code):
+        code = code.replace('\r', '') # replace \r\n -> \n
         # format
         settings = self.get_settings()
         format = settings.get('date_format', '%Y-%m-%d')
