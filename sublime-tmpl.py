@@ -43,6 +43,7 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
         self.tab = self.creat_tab(view)
 
         self.set_syntax(opts)
+        # sublime.set_timeout(lambda: self.set_syntax(opts), 1000)
         self.set_code(tmpl)
 
     def get_settings(self, type=None):
