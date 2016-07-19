@@ -71,9 +71,10 @@ To disable all default shortcuts, set value to `all`.
     
 - `*.tmpl` file support `${project_base_name}`, `${project_path}` and `${platform}`
 
+    NOTE: This will only work with SublimeText 3.0 or above.
+
     > Enable: `SublimeTmpl > settings - user` add `"enable_project_variables": true,`
 
-    > NOTE: This will only work with SublimeText 3.0 or above.
 
 It is recommended that you put your own custom settings in `settings - user`.  Please see note below in "*Detailed Instructions for Sublime Newbies"
 
