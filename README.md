@@ -65,6 +65,16 @@ To disable all default shortcuts, set value to `all`.
 
     > default "date_format" : "%Y-%m-%d %H:%M:%S" .
 
+- `*.tmpl` file support `${saved_filename}`, `${saved_filepath}` on save file
+
+    > Enable: `SublimeTmpl > settings - user` add `"enable_file_variables_on_save": true,`
+    
+- `*.tmpl` file support `${project_base_name}`, `${project_path}` and `${platform}`
+
+    > Enable: `SublimeTmpl > settings - user` add `"enable_project_variables": true,`
+
+    > NOTE: This will only work with SublimeText 3.0 or above.
+
 It is recommended that you put your own custom settings in `settings - user`.  Please see note below in "*Detailed Instructions for Sublime Newbies"
 
 - custom variables: `attr`

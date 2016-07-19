@@ -27,7 +27,6 @@ PACKAGES_PATH = sublime.packages_path()  # for ST2
 
 IS_GTE_ST3 = int(sublime.version()[0]) >= 3
 DISABLE_KEYMAP = None
-UNSAVED_IDS = {}
 
 class SublimeTmplCommand(sublime_plugin.TextCommand):
 
@@ -106,6 +105,7 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
         return self.format_tag(code)
 
     def format_tag(self, code):
+        win = self.view.window()
         code = code.replace('\r', '') # replace \r\n -> \n
         # format
         settings = self.get_settings()
@@ -115,10 +115,17 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
             code = code.decode('utf8') # for st2 && Chinese characters
         code = code.replace('${date}', date)
 
-  
         attr = settings.get('attr', {})
         for key in attr:
             code = code.replace('${%s}' % key, attr.get(key, ''))
+
+        # print(hasattr(win, 'extract_variables'))
+        # print(win.extract_variables(), win.project_data())
+        if settings.get('enable_project_variables', False) and hasattr(win, 'extract_variables'):
+            variables = win.extract_variables()
+            for key in ['project_base_name', 'project_path', 'platform']:
+                code = code.replace('${%s}' % key, variables.get(key, ''))
+
         # keep ${var..}
         code = re.sub(r"(?<!\\)\${(?!\d)", '\${', code)
         return code
@@ -156,6 +163,8 @@ class SublimeTmplReplaceCommand(sublime_plugin.TextCommand):
         self.view.replace(edit, region, s)
 
 class SublimeTmplEventListener(sublime_plugin.EventListener):
+    def __init__(self):
+        self.unsaved_ids = {}
     def on_query_context(self, view, key, operator, operand, match_all):
         settings = sublime.load_settings(PACKAGE_NAME + '.sublime-settings')
         disable_keymap_actions = settings.get('disable_keymap_actions', '')
@@ -179,10 +188,10 @@ class SublimeTmplEventListener(sublime_plugin.EventListener):
             return
         settings = sublime.load_settings(PACKAGE_NAME + '.sublime-settings')
         if settings.get('enable_file_variables_on_save', False):
-            UNSAVED_IDS[view.id()] = True
-        # print('on_activated', UNSAVED_IDS, view.id(), view.file_name())
+            self.unsaved_ids[view.id()] = True
+        # print('on_activated', self.unsaved_ids, view.id(), view.file_name())
     def on_pre_save(self, view):
-        if not view.id() in UNSAVED_IDS:
+        if not view.id() in self.unsaved_ids:
             return
         settings = sublime.load_settings(PACKAGE_NAME + '.sublime-settings')
         if settings.get('enable_file_variables_on_save', False):
@@ -190,7 +199,7 @@ class SublimeTmplEventListener(sublime_plugin.EventListener):
             filename = os.path.basename(filepath)
             view.run_command('sublime_tmpl_replace', {'old': '${saved_filepath}', 'new': filepath})
             view.run_command('sublime_tmpl_replace', {'old': '${saved_filename}', 'new': filename})
-            del UNSAVED_IDS[view.id()]
+            del self.unsaved_ids[view.id()]
 
 def plugin_loaded():  # for ST3 >= 3016
     # global PACKAGES_PATH
