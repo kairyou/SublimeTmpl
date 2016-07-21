@@ -28,10 +28,13 @@ Usage
 Settings
 --------
 
-`Preferences` / `Packages Settings` / `SublimeTmpl`
+Default Settings: `Preferences` > `Packages Settings` > `SublimeTmpl` > `Settings - Default`
 
+Custom settings (**Recommend*): `Preferences` > `Package Settings` > `SublimeTmpl` > `Settings - User`
 
+Default template files: `Packages/SublimeTmpl/templates`
 
+Custom template files (**Recommend*): `Packages/User/SublimeTmpl/templates/`
 
 
 Default key bindings
@@ -68,7 +71,7 @@ To disable all default shortcuts, set value to `all`.
 - `*.tmpl` file support `${saved_filename}`, `${saved_filepath}` on save file
 
     > Enable: `SublimeTmpl > settings - user` add `"enable_file_variables_on_save": true,`
-    
+
 - `*.tmpl` file support `${project_base_name}`, `${project_path}` and `${platform}`
 
     NOTE: This will only work with SublimeText 3.0 or above.
@@ -81,15 +84,15 @@ It is recommended that you put your own custom settings in `settings - user`.  P
 - custom variables: `attr`
 
     > custom the attr variables in settings, example:
-    > 
+    >
  ``` json
     "attr": {
         "author": "Your Name" ,
         "email": "you@example.org",
-        "link": "http://example.org"
+        "link": "http://example.org",
         "hello": "word"
     }
-``` 
+```
 
     > The `*.tmpl` file will support `${author}` `${email}` `${link}` `${hello}` variables.
 
@@ -100,9 +103,9 @@ Sublime Text keeps settings in bunch of files in a folder. For example, OS X, it
 
 ```/Users/yourusername/Library/Application Support/Sublime Text 3/Packages```
 
-You can navigate to it easily by using the following menu item in Sublime, for example: `Sublime Text>Preferences>Settings-User`
+You can navigate to it easily by using the following menu item in Sublime, for example: `Sublime Text>Preferences>Browse Packages`
 
-Now go to `Packages\SublimeTemp` folder and open the file SublimeTmpl.sublime-settings.  Save the file with the same file name under `Packages\User`. Delete everything except the variables that are custom to you. By the time you are finished, the file might look as simple as this (JSON format):
+Now go to `Packages\SublimeTmpl` folder and open the file SublimeTmpl.sublime-settings.  Save the file with the same file name under `Packages\User`. Delete everything except the variables that are custom to you. By the time you are finished, the file might look as simple as this (JSON format):
 ```
 {
     "attr": {
@@ -112,7 +115,7 @@ Now go to `Packages\SublimeTemp` folder and open the file SublimeTmpl.sublime-se
 }
 ```
 
-If you don't want the  `"link"` and `"hello"` variables to show up, you should copy the (for example) python.templ file to `Packages/User/SublimeTmpl/templates` and remove those elements from it.  
+If you don't want the  `"link"` and `"hello"` variables to show up, you should copy the (for example) python.tmpl file to `Packages/User/SublimeTmpl/templates` and remove those elements from it.  
 
 
 Authors
@@ -134,4 +137,4 @@ Docs: [中文文档](http://www.fantxi.com/blog/archives/sublime-template-engine
 
 
 [0]: https://github.com/kairyou/SublimeTmpl
-[1]: http://wbond.net/sublime_packages/package_control
+[1]: https://packagecontrol.io
