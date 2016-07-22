@@ -205,8 +205,7 @@ def plugin_loaded():  # for ST3 >= 3016
     # global PACKAGES_PATH
     PACKAGES_PATH = sublime.packages_path()
     TARGET_PATH = os.path.join(PACKAGES_PATH, PACKAGE_NAME)
-    # print(BASE_PATH, os.path.dirname(BASE_PATH))
-    # print(TARGET_PATH)
+    # print(BASE_PATH, os.path.dirname(BASE_PATH), TARGET_PATH)
 
     # auto create custom_path
     custom_path = os.path.join(PACKAGES_PATH, 'User', PACKAGE_NAME, TMLP_DIR)
@@ -214,14 +213,21 @@ def plugin_loaded():  # for ST3 >= 3016
     if not os.path.isdir(custom_path):
         os.makedirs(custom_path)
 
-    # first run
+    # try:
+    #     from package_control import events
+    #     if events.post_upgrade(PACKAGE_NAME):
+    #         print('Upgraded to %s!' % events.post_upgrade(PACKAGE_NAME))
+    # except Exception as e:
+    #     print(e)
+
+    # first run (https://git.io/vKMIS, does not need extract files)
     if not os.path.isdir(TARGET_PATH):
         os.makedirs(os.path.join(TARGET_PATH, TMLP_DIR))
         # copy user files
         tmpl_dir = TMLP_DIR + '/'
         file_list = [
             'Default.sublime-commands', 'Main.sublime-menu',
-            # if don't copy .py, ST3 throw: ImportError: No module named
+            # if don't copy .py, ST3 throw: ImportError: No module named # fix: restart sublime
             'sublime-tmpl.py',
             'README.md',
             tmpl_dir + 'css.tmpl', tmpl_dir + 'html.tmpl',
