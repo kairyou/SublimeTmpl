@@ -118,11 +118,12 @@ Now go to `Packages\SublimeTmpl` folder and open the file SublimeTmpl.sublime-se
 If you don't want the  `"link"` and `"hello"` variables to show up, you should copy the (for example) python.tmpl file to `Packages/User/SublimeTmpl/templates` and remove those elements from it.  
 
 
-Authors
+Contributors
 -------
-* **Kairyou** ([Blog](http://www.fantxi.com/blog/) / [GitHub](https://github.com/kairyou))
-* **Vfasky** ([Blog](http://vfasky.com) / [GitHub](https://github.com/vfasky))
-* **Xu Cheng** ([Github](https://github.com/xu-cheng))
+- [View Contributors](https://github.com/kairyou/SublimeTmpl/graphs/contributors)
+
+### Donate
+<span class="badge-paypal"><a href="https://www.paypal.me/kairyou" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button" /></a></span>
 
 FAQ
 ---

@@ -1,0 +1,76 @@
+[
+    {
+        "id": "sublimetmpl",
+        "caption": "New File (SublimeTmpl)",
+        "children":
+        [
+            {
+                "id": "html",
+                "caption": "HTML",
+                "command": "sublime_tmpl",
+                "args": {
+                    "type": "html",
+                    "paths": [],
+                }
+            },
+            {
+                "id": "js",
+                "caption": "Javascript",
+                "command": "sublime_tmpl",
+                "args": {
+                    "type": "js",
+                    "paths": [],
+                }
+            },
+            {
+                "id": "css",
+                "caption": "CSS",
+                "command": "sublime_tmpl",
+                "args": {
+                    "type": "css",
+                    "paths": [],
+                }
+            },
+            {
+                "id": "php",
+                "caption": "PHP",
+                "command": "sublime_tmpl",
+                "args": {
+                    "type": "php",
+                    "paths": [],
+                }
+            },
+            {
+                "id": "python",
+                "caption": "python",
+                "command": "sublime_tmpl",
+                "args": {
+                    "type": "python",
+                    "paths": [],
+                }
+            },
+            {
+                "id": "ruby",
+                "caption": "ruby",
+                "command": "sublime_tmpl",
+                "args": {
+                    "type": "ruby",
+                    "paths": [],
+                }
+            },
+            {"caption": "-"},
+            {
+                "id": "menu",
+                "command": "open_file",
+                "args": {"file": "${packages}/SublimeTmpl/Side Bar.sublime-menu"},
+                "caption": "Side Bar Menu – Default"
+            },
+            {
+                "id": "menu",
+                "command": "open_file",
+                "args": {"file": "${packages}/User/SublimeTmpl/Side Bar.sublime-menu"},
+                "caption": "Side Bar Menu – User"
+            }
+        ]
+    }
+]

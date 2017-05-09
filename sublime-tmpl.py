@@ -30,7 +30,7 @@ DISABLE_KEYMAP = None
 
 class SublimeTmplCommand(sublime_plugin.TextCommand):
 
-    def run(self, edit, type='html'):
+    def run(self, edit, type='html', paths = [None]):
         view = self.view
         opts = self.get_settings(type)
         tmpl = self.get_code(type)
@@ -40,7 +40,7 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
             return False
 
         # print(KEY_SYNTAX in opts)
-        self.tab = self.creat_tab(view)
+        self.tab = self.creat_tab(view, paths)
 
         self.set_syntax(opts)
         # sublime.set_timeout(lambda: self.set_syntax(opts), 1000)
@@ -130,14 +130,17 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
         code = re.sub(r"(?<!\\)\${(?!\d)", '\${', code)
         return code
 
-    def creat_tab(self, view):
+    def creat_tab(self, view, paths = [None]):
         win = view.window()
+        # tab = win.open_file('/tmp/123')
         tab = win.new_file()
+        # tab.set_name('untitled')
+        active = win.active_view()
+        active.settings().set('default_dir', paths[0])
         return tab
 
     def set_code(self, code):
         tab = self.tab
-        # tab.set_name('untitled.' + self.type)
         # insert codes
         tab.run_command('insert_snippet', {'contents': code})
 
