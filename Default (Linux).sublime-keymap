@@ -1,0 +1,26 @@
+[
+	{
+        "keys": ["ctrl+alt+h"], "command": "sublime_tmpl",
+        "args": {"type": "html"}, "context": [{"key": "sublime_tmpl.html"}]
+    }
+    ,{
+        "keys": ["ctrl+alt+j"], "command": "sublime_tmpl",
+        "args": {"type": "js"}, "context": [{"key": "sublime_tmpl.js"}]
+    }
+    ,{
+        "keys": ["ctrl+alt+c"], "command": "sublime_tmpl",
+        "args": {"type": "css"}, "context": [{"key": "sublime_tmpl.css"}]
+    }
+    ,{
+        "keys": ["ctrl+alt+p"], "command": "sublime_tmpl",
+        "args": {"type": "php"}, "context": [{"key": "sublime_tmpl.php"}]
+    }
+    ,{
+        "keys": ["ctrl+alt+r"], "command": "sublime_tmpl",
+        "args": {"type": "ruby"}, "context": [{"key": "sublime_tmpl.ruby"}]
+    }
+    ,{
+        "keys": ["ctrl+alt++shift+p"], "command": "sublime_tmpl",
+        "args": {"type": "python"}, "context": [{"key": "sublime_tmpl.python"}]
+    }
+]

@@ -4,10 +4,12 @@
         "children":
         [
             {
+                "id": "sublimetmpl",
                 "caption": "New File (SublimeTmpl)",
                 "children":
                 [
                     {
+                        "id": "html",
                         "caption": "HTML",
                         "command": "sublime_tmpl",
                         "args": {
@@ -15,6 +17,7 @@
                         }
                     },
                     {
+                        "id": "js",
                         "caption": "Javascript",
                         "command": "sublime_tmpl",
                         "args": {
@@ -22,6 +25,7 @@
                         }
                     },
                     {
+                        "id": "css",
                         "caption": "CSS",
                         "command": "sublime_tmpl",
                         "args": {
@@ -29,6 +33,7 @@
                         }
                     },
                     {
+                        "id": "php",
                         "caption": "PHP",
                         "command": "sublime_tmpl",
                         "args": {
@@ -36,6 +41,7 @@
                         }
                     },
                     {
+                        "id": "python",
                         "caption": "python",
                         "command": "sublime_tmpl",
                         "args": {
@@ -43,6 +49,7 @@
                         }
                     },
                     {
+                        "id": "ruby",
                         "caption": "ruby",
                         "command": "sublime_tmpl",
                         "args": {
@@ -51,9 +58,16 @@
                     },
                     {"caption": "-"},
                     {
+                        "id": "menu",
                         "command": "open_file",
                         "args": {"file": "${packages}/SublimeTmpl/Main.sublime-menu"},
-                        "caption": "Menu"
+                        "caption": "Menu – Default"
+                    },
+                    {
+                        "id": "menu",
+                        "command": "open_file",
+                        "args": {"file": "${packages}/User/SublimeTmpl/Main.sublime-menu"},
+                        "caption": "Menu – User"
                     }
                 ]
             }
@@ -76,13 +90,25 @@
                             {
                                 "command": "open_file",
                                 "args": {"file": "${packages}/SublimeTmpl/Main.sublime-menu"},
-                                "caption": "Settings – Menu"
+                                "caption": "Menu – Default"
                             },
                             {
                                 "command": "open_file",
-                                "args": {"file": "${packages}/SublimeTmpl/Default.sublime-commands"},
-                                "caption": "Settings – Commands"
+                                "args": {"file": "${packages}/User/SublimeTmpl/Main.sublime-menu"},
+                                "caption": "Menu – User"
                             },
+                            { "caption": "-" },
+                            {
+                                "command": "open_file",
+                                "args": {"file": "${packages}/SublimeTmpl/Default.sublime-commands"},
+                                "caption": "Commands – Default"
+                            },
+                            {
+                                "command": "open_file",
+                                "args": {"file": "${packages}/User/SublimeTmpl/Default.sublime-commands"},
+                                "caption": "Commands – User"
+                            },
+                            { "caption": "-" },
                             {
                                 "command": "open_file",
                                 "args": {"file": "${packages}/SublimeTmpl/SublimeTmpl.sublime-settings"},
