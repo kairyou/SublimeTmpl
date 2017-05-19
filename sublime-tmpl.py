@@ -11,6 +11,7 @@ import glob
 import datetime
 import zipfile
 import re
+import shutil
 
 PACKAGE_NAME = 'SublimeTmpl'
 TMLP_DIR = 'templates'
@@ -213,15 +214,16 @@ def plugin_loaded():  # for ST3 >= 3016
     # auto create custom_path
     custom_path = os.path.join(PACKAGES_PATH, 'User', PACKAGE_NAME, TMLP_DIR)
     # print(custom_path, os.path.isdir(custom_path))
-    if not os.path.isdir(custom_path):
+    not_existed = not os.path.isdir(custom_path)
+    if not_existed:
         os.makedirs(custom_path)
 
-    # try:
-    #     from package_control import events
-    #     if events.post_upgrade(PACKAGE_NAME):
-    #         print('Upgraded to %s!' % events.post_upgrade(PACKAGE_NAME))
-    # except Exception as e:
-    #     print(e)
+        files = glob.iglob(os.path.join(BASE_PATH, TMLP_DIR, '*.tmpl'))
+        for file in files:
+            dst_file = os.path.join(custom_path, os.path.basename(file))
+            if not os.path.exists(dst_file):
+                shutil.copy(file, dst_file)
+
 
     # first run (https://git.io/vKMIS, does not need extract files)
     if not os.path.isdir(TARGET_PATH):
