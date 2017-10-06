@@ -7,17 +7,27 @@
                 "id": "sublimetmpl",
                 "caption": "New file from template",
                 "children":
-                [
-                    {
-                        "id": "command_object",
-                        "caption": "Command Object",
-                        "command": "command_object",
-                        "args": {
-                            "type": "command_object",
-                            "syntax": "ruby"
-                        }
-                    },
-                ]
+                        [
+                            {
+                                "id": "html",
+                                "caption": "Command Object",
+                                "command": "sublime_tmpl",
+                                "args": {
+                                    "type": "command_object",
+                                    "syntax": "ruby",
+                                }
+                            },
+
+                            {
+                                "id": "html",
+                                "caption": "Suckerpunch Job",
+                                "command": "sublime_tmpl",
+                                "args": {
+                                    "type": "sucker_punch",
+                                    "syntax": "ruby",
+                                }
+                            }
+                        ]
             }
         ]
     },
