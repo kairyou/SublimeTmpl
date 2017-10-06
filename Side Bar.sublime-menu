@@ -12,6 +12,16 @@
                     "type": "command_object",
                     "syntax": "ruby",
                 }
+            },
+
+            {
+                "id": "html",
+                "caption": "Suckerpunch Job",
+                "command": "sublime_tmpl",
+                "args": {
+                    "type": "sucker_punch",
+                    "syntax": "ruby",
+                }
             }
         ]
     }

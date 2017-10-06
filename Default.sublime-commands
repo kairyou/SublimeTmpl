@@ -1,6 +1,10 @@
 [
     {
-        "caption": "Tmpl: Create ruby", "command": "sublime_tmpl",
+        "caption": "Templates: Create Command Object", "command": "sublime_tmpl",
         "args": {"type": "command_object", "syntax": "ruby"}
+    },
+    {
+        "caption": "Templates: Create Suckerpunch Job", "command": "sublime_tmpl",
+        "args": {"type": "sucker_punch", "syntax": "ruby"}
     }
 ]
