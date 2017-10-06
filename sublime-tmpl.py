@@ -13,7 +13,7 @@ import zipfile
 import re
 import shutil
 
-PACKAGE_NAME = 'SublimeTmpl'
+PACKAGE_NAME = 'sublime-templates'
 TMLP_DIR = 'templates'
 KEY_SYNTAX = 'syntax'
 KEY_FILE_EXT = 'extension'
@@ -31,9 +31,9 @@ DISABLE_KEYMAP = None
 
 class SublimeTmplCommand(sublime_plugin.TextCommand):
 
-    def run(self, edit, type='html', paths = [None]):
+    def run(self, edit, type='html', paths = [None], syntax='ruby'):
         view = self.view
-        opts = self.get_settings(type)
+        opts = self.get_settings(syntax)
         tmpl = self.get_code(type)
 
         # print('global', DISABLE_KEYMAP, IS_GTE_ST3);
@@ -53,9 +53,8 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
         if not type:
             return settings
 
-        # print(settings.get('html')['syntax'])
         opts = settings.get(type, [])
-        # print(opts)
+
         return opts
 
     def open_file(self, path, mode='r'):
