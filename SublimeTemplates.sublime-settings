@@ -1,0 +1,116 @@
+{
+    "html": {
+        "syntax": "Packages/HTML/HTML.tmLanguage",
+        "extension": "html" // default_extension
+    },
+    "js": {
+        "syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+        "extension": "js"
+    },
+    "css": {
+        "syntax": "Packages/CSS/CSS.tmLanguage",
+        "extension": "css"
+    },
+    "xml": {
+        "syntax": "Packages/XML/XML.tmLanguage",
+        "extension": "xml"
+    },
+    "php": {
+        "syntax": "Packages/PHP/PHP.tmLanguage",
+        "extension": "php"
+    },
+    "java": {
+        "syntax": "Packages/Java/Java.tmLanguage",
+        "extension": "java"
+    },
+    "ruby": {
+        "syntax": "Packages/Ruby/Ruby.tmLanguage",
+        "extension": "rb"
+    },
+    "python": {
+        "syntax": "Packages/Python/Python.tmLanguage",
+        "extension": "py"
+    },
+    "objective-c": {
+        "syntax": "Packages/Objective-C/Objective-C.tmLanguage",
+        "extension": "m"
+    },
+    "c++": {
+        "syntax": "Packages/C++/C++.tmLanguage",
+        "extension": "cpp"
+    },
+    "C#": {
+        "syntax": "Packages/C#/C#.tmLanguage",
+        "extension": "cs"
+    },
+    "Perl": {
+        "syntax": "Packages/Perl/Perl.tmLanguage",
+        "extension": "pl"
+    },
+    "sass": {
+        "syntax": "Packages/SCSS/SCSS.tmLanguage",
+        // "syntax": "Packages/Sass/Syntaxes/Sass.tmLanguage",
+        "extension": "scss"
+    },
+    "go": {
+        "syntax": "Packages/Go/Go.tmLanguage",
+        "extension": "go"
+    },
+    "groovy": {
+        "syntax": "Packages/Groovy/Groovy.tmLanguage",
+        "extension": "groovy"
+    },
+    "erlang": {
+        "syntax": "Packages/Erlang/Erlang.tmLanguage",
+        "extension": "erl"
+    },
+    "jade": {
+        "syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
+        "extension": "jade"
+    },
+    "less": {
+        "syntax": "Packages/LESS/LESS.tmLanguage",
+        "extension": "less"
+    },
+    "lisp": {
+        "syntax": "Packages/Lisp/Lisp.tmLanguage",
+        "extension": "lisp"
+    },
+    "lua": {
+        "syntax": "Packages/Lua/Lua.tmLanguage",
+        "extension": "lua"
+    },
+    "make": {
+        "syntax": "Packages/Makefile/Makefile.tmLanguage",
+        "extension": "make"
+    },
+    "rust": {
+        "syntax": "Packages/Rust/Rust.tmLanguage",
+        "extension": "rs"
+    },
+    "scala": {
+        "syntax": "Packages/Scala/Scala.tmLanguage",
+        "extension": "scala"
+    },
+    "shellscript": {
+        "syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage",
+        "extension": "sh"
+    },
+    "sql": {
+        "syntax": "Packages/SQL/SQL.tmLanguage",
+        "extension": "sql"
+    },
+    "yaml": {
+        "syntax": "Packages/YAML/YAML.tmLanguage",
+        "extension": "yaml"
+    },
+    "disable_keymap_actions": false, // "all"; "html,css"
+    "enable_project_variables": false, // ${project_base_name}, ${project_path} and ${platform}
+    "enable_file_variables_on_save": false, // ${saved_filename}, ${saved_filepath} on save file
+    "date_format" : "%Y-%m-%d %H:%M:%S",
+    "attr": {
+        "author": "Your Name",
+        "email": "you@example.org",
+        "link": "http://example.org"
+    }
+}
