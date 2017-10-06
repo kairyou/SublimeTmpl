@@ -13,7 +13,7 @@ import zipfile
 import re
 import shutil
 
-PACKAGE_NAME = 'SublimeTemplates'
+PACKAGE_NAME = 'sublime_templates'
 TMLP_DIR = 'templates'
 KEY_SYNTAX = 'syntax'
 KEY_FILE_EXT = 'extension'
@@ -47,7 +47,7 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
         self.set_code(tmpl)
 
     def get_settings(self, type=None):
-        settings = sublime.load_settings(PACKAGE_NAME + '.sublime-settings')
+        settings = sublime.load_settings('SublimeTemplates.sublime-settings')
 
         if not type:
             return settings
