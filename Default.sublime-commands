@@ -1,6 +1,6 @@
 [
     {
         "caption": "Tmpl: Create ruby", "command": "sublime_tmpl",
-        "args": {"type": "ruby"}
+        "args": {"type": "command_object", "syntax": "ruby"}
     }
 ]
