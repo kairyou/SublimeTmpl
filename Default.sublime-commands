@@ -26,5 +26,10 @@
     {
         "caption": "Templates: Create Controller", "command": "sublime_tmpl",
         "args": {"type": "controller", "syntax": "javascript"}
+    },
+
+    {
+        "caption": "Templates: Create Component", "command": "sublime_tmpl",
+        "args": {"type": "component", "syntax": "javascript"}
     }
 ]

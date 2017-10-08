@@ -45,6 +45,16 @@
             },
 
             {
+                "id": "com",
+                "caption": "Component",
+                "command": "sublime_tmpl",
+                "args": {
+                    "type": "component",
+                    "syntax": "javascript",
+                }
+            },
+
+            {
                 "id": "fac",
                 "caption": "Factory",
                 "command": "sublime_tmpl",
