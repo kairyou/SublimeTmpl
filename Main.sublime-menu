@@ -46,6 +46,16 @@
                                     "type": "model_spec",
                                     "syntax": "ruby",
                                 }
+                            },
+
+                            {
+                                "id": "fac",
+                                "caption": "Factory",
+                                "command": "sublime_tmpl",
+                                "args": {
+                                    "type": "factory",
+                                    "syntax": "javascript",
+                                }
                             }
                         ]
             }
