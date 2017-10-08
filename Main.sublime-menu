@@ -56,6 +56,16 @@
                                     "type": "factory",
                                     "syntax": "javascript",
                                 }
+                            },
+
+                            {
+                                "id": "dir",
+                                "caption": "Directive",
+                                "command": "sublime_tmpl",
+                                "args": {
+                                    "type": "directive",
+                                    "syntax": "javascript",
+                                }
                             }
                         ]
             }
