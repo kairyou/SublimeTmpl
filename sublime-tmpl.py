@@ -13,7 +13,7 @@ import zipfile
 import re
 import shutil
 
-PACKAGE_NAME = 'sublime_templates'
+PACKAGE_NAME = 'sublime-templates'
 TMLP_DIR = 'templates'
 KEY_SYNTAX = 'syntax'
 KEY_FILE_EXT = 'extension'
