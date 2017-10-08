@@ -66,6 +66,16 @@
                                     "type": "directive",
                                     "syntax": "javascript",
                                 }
+                            },
+
+                            {
+                                "id": "con",
+                                "caption": "Directive",
+                                "command": "sublime_tmpl",
+                                "args": {
+                                    "type": "controller",
+                                    "syntax": "javascript",
+                                }
                             }
                         ]
             }

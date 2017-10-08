@@ -20,7 +20,11 @@
         "args": {"type": "factory", "syntax": "javascript"}
     },
     {
-        "caption": "Templates: Create Factory", "command": "sublime_tmpl",
-        "args": {"type": "factory", "syntax": "javascript"}
+        "caption": "Templates: Create Directive", "command": "sublime_tmpl",
+        "args": {"type": "directive", "syntax": "javascript"}
+    },
+    {
+        "caption": "Templates: Create Controller", "command": "sublime_tmpl",
+        "args": {"type": "controller", "syntax": "javascript"}
     }
 ]
