@@ -1,0 +1,20 @@
+import React from 'react';
+
+import ArcPropTypes from '../helpers/arc/propTypes';
+
+class ${1:MyComponent}$0 extends React.Component {
+  static propTypes = {
+    myString: ArcPropTypes.string,
+    myRequiredBool: ArcPropTypes.bool.isRequired,
+  };
+
+  static defaultProps = {
+    myString: '',
+  };
+
+  render() {
+    return (
+      <div>{this.props.myString}</div>
+    )
+  }
+}
