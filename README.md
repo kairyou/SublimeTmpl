@@ -24,14 +24,13 @@ This plugin exposes multiple ways to create the files from template. You can eit
 
 Templates left to do
 --------------------
-
-- [ ] Rails request spec
-- [ ] Rails model spec
-- [ ] Angular factory
-- [ ] Angular controller
-- [ ] Angular directive
+- [x] Rails request spec
+- [x] Rails model spec
+- [x] Angular factory
+- [x] Angular controller
+- [x] Angular directive
+- [ ] React components
 
 Functionality left to do
 ------------------------
-
-- [ ] Highlight classname in template
+- [x] Highlight classname in template
