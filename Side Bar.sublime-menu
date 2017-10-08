@@ -5,7 +5,7 @@
         "children":
         [
             {
-                "id": "html",
+                "id": "co",
                 "caption": "Command Object",
                 "command": "sublime_tmpl",
                 "args": {
@@ -15,11 +15,21 @@
             },
 
             {
-                "id": "html",
+                "id": "sp",
                 "caption": "Suckerpunch Job",
                 "command": "sublime_tmpl",
                 "args": {
                     "type": "sucker_punch",
+                    "syntax": "ruby",
+                }
+            },
+
+            {
+                "id": "rs",
+                "caption": "Request Spec",
+                "command": "sublime_tmpl",
+                "args": {
+                    "type": "request_spec",
                     "syntax": "ruby",
                 }
             }
