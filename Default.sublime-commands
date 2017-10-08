@@ -10,5 +10,9 @@
     {
         "caption": "Templates: Create Request Spec", "command": "sublime_tmpl",
         "args": {"type": "request_spec", "syntax": "ruby"}
+    },
+    {
+        "caption": "Templates: Create Model Spec", "command": "sublime_tmpl",
+        "args": {"type": "model_spec", "syntax": "ruby"}
     }
 ]

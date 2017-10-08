@@ -36,6 +36,16 @@
                                     "type": "request_spec",
                                     "syntax": "ruby",
                                 }
+                            },
+
+                            {
+                                "id": "ms",
+                                "caption": "Model Spec",
+                                "command": "sublime_tmpl",
+                                "args": {
+                                    "type": "model_spec",
+                                    "syntax": "ruby",
+                                }
                             }
                         ]
             }
