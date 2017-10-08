@@ -31,3 +31,7 @@ Templates left to do
 - [ ] Angular controller
 - [ ] Angular directive
 
+Functionality left to do
+------------------------
+
+- [ ] Highlight classname in template
