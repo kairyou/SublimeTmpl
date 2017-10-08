@@ -1,4 +1,4 @@
-${1:RSpec.describe '/v2/something.json', type: :request, api: true do
+RSpec.describe ${1:'/v2/something.json'}$0, type: :request, api: true do
   let!(:user) { FactoryGirl.create(:user) }
 
   before do
@@ -12,4 +12,3 @@ ${1:RSpec.describe '/v2/something.json', type: :request, api: true do
   end
 
 end
-}$0
