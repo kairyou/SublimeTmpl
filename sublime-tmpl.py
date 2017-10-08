@@ -13,7 +13,7 @@ import zipfile
 import re
 import shutil
 
-PACKAGE_NAME = 'SublimeTmpl'
+PACKAGE_NAME = 'sublime-templates'
 TMLP_DIR = 'templates'
 KEY_SYNTAX = 'syntax'
 KEY_FILE_EXT = 'extension'
@@ -22,40 +22,38 @@ KEY_FILE_EXT = 'extension'
 BASE_PATH = os.path.abspath(os.path.dirname(__file__))
 PACKAGES_PATH = sublime.packages_path()  # for ST2
 
-# sys.path += [BASE_PATH]
-# sys.path.append(BASE_PATH)
-# import sys;print(sys.path)
 
 IS_GTE_ST3 = int(sublime.version()[0]) >= 3
 DISABLE_KEYMAP = None
 
 class SublimeTmplCommand(sublime_plugin.TextCommand):
 
-    def run(self, edit, type='html', paths = [None]):
+    def run(self, edit, type='html', paths = [None], syntax=None):
         view = self.view
-        opts = self.get_settings(type)
+
+        if syntax:
+            opts = self.get_settings(syntax)
+        else:
+            opts = self.get_settings(type)
+
         tmpl = self.get_code(type)
 
-        # print('global', DISABLE_KEYMAP, IS_GTE_ST3);
         if DISABLE_KEYMAP:
             return False
 
-        # print(KEY_SYNTAX in opts)
-        self.tab = self.creat_tab(view, paths)
+        self.tab = self.create_tab(view, paths)
 
         self.set_syntax(opts)
-        # sublime.set_timeout(lambda: self.set_syntax(opts), 1000)
         self.set_code(tmpl)
 
     def get_settings(self, type=None):
-        settings = sublime.load_settings(PACKAGE_NAME + '.sublime-settings')
+        settings = sublime.load_settings('SublimeTemplates.sublime-settings')
 
         if not type:
             return settings
 
-        # print(settings.get('html')['syntax'])
         opts = settings.get(type, [])
-        # print(opts)
+
         return opts
 
     def open_file(self, path, mode='r'):
@@ -98,7 +96,6 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
             else:
                 isIOError = True
 
-        # print(self.tmpl_path)
         if isIOError:
             sublime.message_dialog('[Warning] No such file: ' + self.tmpl_path
                                    + ' or ' + self.user_tmpl_path)
@@ -117,11 +114,10 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
         code = code.replace('${date}', date)
 
         attr = settings.get('attr', {})
+
         for key in attr:
             code = code.replace('${%s}' % key, attr.get(key, ''))
 
-        # print(hasattr(win, 'extract_variables'))
-        # print(win.extract_variables(), win.project_data())
         if settings.get('enable_project_variables', False) and hasattr(win, 'extract_variables'):
             variables = win.extract_variables()
             for key in ['project_base_name', 'project_path', 'platform']:
@@ -131,34 +127,28 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
         code = re.sub(r"(?<!\\)\${(?!\d)", '\${', code)
         return code
 
-    def creat_tab(self, view, paths = [None]):
+    def create_tab(self, view, paths = [None]):
         win = view.window()
-        # tab = win.open_file('/tmp/123')
         tab = win.new_file()
-        # tab.set_name('untitled')
         active = win.active_view()
         active.settings().set('default_dir', paths[0])
         return tab
 
     def set_code(self, code):
         tab = self.tab
-        # insert codes
         tab.run_command('insert_snippet', {'contents': code})
 
     def set_syntax(self, opts):
         v = self.tab
         # syntax = self.view.settings().get('syntax') # from current file
         syntax = opts[KEY_SYNTAX] if KEY_SYNTAX in opts else ''
-        # print(syntax) # tab.set_syntax_file('Packages/Diff/Diff.tmLanguage')
         v.set_syntax_file(syntax)
 
-        # print(opts[KEY_FILE_EXT])
         if KEY_FILE_EXT in opts:
             v.settings().set('default_extension', opts[KEY_FILE_EXT])
 
 class SublimeTmplReplaceCommand(sublime_plugin.TextCommand):
     def run(self, edit, old, new):
-        # print('tmpl_replace', old, new)
         region = sublime.Region(0, self.view.size())
         if region.empty() or not old or not new:
             return
@@ -172,7 +162,6 @@ class SublimeTmplEventListener(sublime_plugin.EventListener):
     def on_query_context(self, view, key, operator, operand, match_all):
         settings = sublime.load_settings(PACKAGE_NAME + '.sublime-settings')
         disable_keymap_actions = settings.get('disable_keymap_actions', '')
-        # print ("key1: %s, %s" % (key, disable_keymap_actions))
         global DISABLE_KEYMAP
         DISABLE_KEYMAP = False;
         if not key.startswith('sublime_tmpl.'):
@@ -184,7 +173,6 @@ class SublimeTmplEventListener(sublime_plugin.EventListener):
             return False
         prefix, name = key.split('.')
         ret = name not in re.split(r'\s*,\s*', disable_keymap_actions.strip())
-        # print(name, ret)
         DISABLE_KEYMAP = True if not ret else False;
         return ret
     def on_activated(self, view):
@@ -193,7 +181,6 @@ class SublimeTmplEventListener(sublime_plugin.EventListener):
         settings = sublime.load_settings(PACKAGE_NAME + '.sublime-settings')
         if settings.get('enable_file_variables_on_save', False):
             self.unsaved_ids[view.id()] = True
-        # print('on_activated', self.unsaved_ids, view.id(), view.file_name())
     def on_pre_save(self, view):
         if not view.id() in self.unsaved_ids:
             return
@@ -209,11 +196,9 @@ def plugin_loaded():  # for ST3 >= 3016
     # global PACKAGES_PATH
     PACKAGES_PATH = sublime.packages_path()
     TARGET_PATH = os.path.join(PACKAGES_PATH, PACKAGE_NAME)
-    # print(BASE_PATH, os.path.dirname(BASE_PATH), TARGET_PATH)
 
     # auto create custom_path
     custom_path = os.path.join(PACKAGES_PATH, 'User', PACKAGE_NAME, TMLP_DIR)
-    # print(custom_path, os.path.isdir(custom_path))
     not_existed = not os.path.isdir(custom_path)
     if not_existed:
         os.makedirs(custom_path)
@@ -249,18 +234,15 @@ def plugin_loaded():  # for ST3 >= 3016
     files = glob.iglob(os.path.join(os.path.join(TARGET_PATH, TMLP_DIR), '*.user.tmpl'))
     for file in files:
         filename = os.path.basename(file).replace('.user.tmpl', '.tmpl')
-        # print(file, '=>', os.path.join(custom_path, filename));
         os.rename(file, os.path.join(custom_path, filename))
 
     # old: settings-custom_path compatible fix
     settings = sublime.load_settings(PACKAGE_NAME + '.sublime-settings')
     old_custom_path = settings.get('custom_path', '')
     if old_custom_path and os.path.isdir(old_custom_path):
-        # print(old_custom_path)
         files = glob.iglob(os.path.join(old_custom_path, '*.tmpl'))
         for file in files:
             filename = os.path.basename(file).replace('.user.tmpl', '.tmpl')
-            # print(file, '=>', os.path.join(custom_path, filename))
             os.rename(file, os.path.join(custom_path, filename))
 
 if not IS_GTE_ST3:
@@ -269,12 +251,10 @@ if not IS_GTE_ST3:
 def extract_zip_resource(path_to_zip, file_list, extract_dir=None):
     if extract_dir is None:
         return
-    # print(extract_dir)
     if os.path.exists(path_to_zip):
         z = zipfile.ZipFile(path_to_zip, 'r')
         for f in z.namelist():
             # if f.endswith('.tmpl'):
             if f in file_list:
-                # print(f)
                 z.extract(f, extract_dir)
         z.close()

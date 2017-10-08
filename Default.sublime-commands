@@ -1,26 +1,35 @@
 [
     {
-        "caption": "Tmpl: Create html", "command": "sublime_tmpl",
-        "args": {"type": "html"}
+        "caption": "Templates: Create Command Object", "command": "sublime_tmpl",
+        "args": {"type": "command_object", "syntax": "ruby"}
     },
     {
-        "caption": "Tmpl: Create javascript", "command": "sublime_tmpl",
-        "args": {"type": "js"}
+        "caption": "Templates: Create Suckerpunch Job", "command": "sublime_tmpl",
+        "args": {"type": "sucker_punch", "syntax": "ruby"}
     },
     {
-        "caption": "Tmpl: Create css", "command": "sublime_tmpl",
-        "args": {"type": "css"}
+        "caption": "Templates: Create Request Spec", "command": "sublime_tmpl",
+        "args": {"type": "request_spec", "syntax": "ruby"}
     },
     {
-        "caption": "Tmpl: Create php", "command": "sublime_tmpl",
-        "args": {"type": "php"}
+        "caption": "Templates: Create Model Spec", "command": "sublime_tmpl",
+        "args": {"type": "model_spec", "syntax": "ruby"}
     },
     {
-        "caption": "Tmpl: Create python", "command": "sublime_tmpl",
-        "args": {"type": "python"}
+        "caption": "Templates: Create Factory", "command": "sublime_tmpl",
+        "args": {"type": "factory", "syntax": "javascript"}
     },
     {
-        "caption": "Tmpl: Create ruby", "command": "sublime_tmpl",
-        "args": {"type": "ruby"}
+        "caption": "Templates: Create Directive", "command": "sublime_tmpl",
+        "args": {"type": "directive", "syntax": "javascript"}
+    },
+    {
+        "caption": "Templates: Create Controller", "command": "sublime_tmpl",
+        "args": {"type": "controller", "syntax": "javascript"}
+    },
+
+    {
+        "caption": "Templates: Create Component", "command": "sublime_tmpl",
+        "args": {"type": "component", "syntax": "js-babel"}
     }
 ]

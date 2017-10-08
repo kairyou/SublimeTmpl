@@ -1,0 +1,14 @@
+RSpec.describe ${1:'/v2/something.json'}$0, type: :request, api: true do
+  let!(:user) { FactoryGirl.create(:user) }
+
+  before do
+    sign_in user
+  end
+
+  context '' do
+    it 'does something' do
+
+    end
+  end
+
+end

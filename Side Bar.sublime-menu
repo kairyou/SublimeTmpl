@@ -1,75 +1,87 @@
 [
     {
         "id": "sublimetmpl",
-        "caption": "New File (SublimeTmpl)",
+        "caption": "New file from template",
         "children":
         [
             {
-                "id": "html",
-                "caption": "HTML",
+                "id": "co",
+                "caption": "Command Object",
                 "command": "sublime_tmpl",
                 "args": {
-                    "type": "html",
-                    "paths": [],
+                    "type": "command_object",
+                    "syntax": "ruby",
                 }
             },
+
             {
-                "id": "js",
-                "caption": "Javascript",
+                "id": "sp",
+                "caption": "Suckerpunch Job",
                 "command": "sublime_tmpl",
                 "args": {
-                    "type": "js",
-                    "paths": [],
+                    "type": "sucker_punch",
+                    "syntax": "ruby",
                 }
             },
+
             {
-                "id": "css",
-                "caption": "CSS",
+                "id": "rs",
+                "caption": "Request Spec",
                 "command": "sublime_tmpl",
                 "args": {
-                    "type": "css",
-                    "paths": [],
+                    "type": "request_spec",
+                    "syntax": "ruby",
                 }
             },
+
             {
-                "id": "php",
-                "caption": "PHP",
+                "id": "ms",
+                "caption": "Model Spec",
                 "command": "sublime_tmpl",
                 "args": {
-                    "type": "php",
-                    "paths": [],
+                    "type": "model_spec",
+                    "syntax": "ruby",
                 }
             },
+
             {
-                "id": "python",
-                "caption": "python",
+                "id": "com",
+                "caption": "Component",
                 "command": "sublime_tmpl",
                 "args": {
-                    "type": "python",
-                    "paths": [],
+                    "type": "component",
+                    "syntax": "js-babel",
                 }
             },
+
             {
-                "id": "ruby",
-                "caption": "ruby",
+                "id": "fac",
+                "caption": "Factory",
                 "command": "sublime_tmpl",
                 "args": {
-                    "type": "ruby",
-                    "paths": [],
+                    "type": "factory",
+                    "syntax": "javascript",
                 }
             },
-            {"caption": "-"},
+
             {
-                "id": "menu",
-                "command": "open_file",
-                "args": {"file": "${packages}/SublimeTmpl/Side Bar.sublime-menu"},
-                "caption": "Side Bar Menu – Default"
+                "id": "dir",
+                "caption": "Directive",
+                "command": "sublime_tmpl",
+                "args": {
+                    "type": "directive",
+                    "syntax": "javascript",
+                }
             },
+
             {
-                "id": "menu",
-                "command": "open_file",
-                "args": {"file": "${packages}/User/SublimeTmpl/Side Bar.sublime-menu"},
-                "caption": "Side Bar Menu – User"
+                "id": "con",
+                "caption": "Controller",
+                "command": "sublime_tmpl",
+                "args": {
+                    "type": "controller",
+                    "syntax": "javascript",
+                }
             }
         ]
     }

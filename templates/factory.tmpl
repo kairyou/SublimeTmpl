@@ -1,0 +1,12 @@
+(function(){
+  'use strict';
+
+  angular
+    .module('module_name')
+    .factory('${1:FactoryName}$0', ${1:FactoryName}$0);
+
+  function ${1:FactoryName}$0(ArcadeAuthentication, $resource){
+    return $resource(ArcadeAuthentication.endpoint() + 'url');
+  }
+
+})();

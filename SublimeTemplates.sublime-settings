@@ -3,7 +3,7 @@
         "syntax": "Packages/HTML/HTML.tmLanguage",
         "extension": "html" // default_extension
     },
-    "js": {
+    "javascript": {
         "syntax": "Packages/JavaScript/JavaScript.tmLanguage",
         "extension": "js"
     },
@@ -35,6 +35,10 @@
         "syntax": "Packages/Objective-C/Objective-C.tmLanguage",
         "extension": "m"
     },
+    "js-babel": {
+        "syntax": "Packages/Babel/Javascript (Babel).tmLanguage",
+        "extension": "js"
+    },
     "c++": {
         "syntax": "Packages/C++/C++.tmLanguage",
         "extension": "cpp"
@@ -49,7 +53,6 @@
     },
     "sass": {
         "syntax": "Packages/SCSS/SCSS.tmLanguage",
-        // "syntax": "Packages/Sass/Syntaxes/Sass.tmLanguage",
         "extension": "scss"
     },
     "go": {
