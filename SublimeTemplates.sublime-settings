@@ -3,7 +3,7 @@
         "syntax": "Packages/HTML/HTML.tmLanguage",
         "extension": "html" // default_extension
     },
-    "js": {
+    "javascript": {
         "syntax": "Packages/JavaScript/JavaScript.tmLanguage",
         "extension": "js"
     },

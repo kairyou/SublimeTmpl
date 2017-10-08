@@ -1,0 +1,16 @@
+(function(){
+  'use strict';
+
+  angular
+    .module('module_name')
+    .directive('${1:directive_name}$0', ${1:directive_name}$0);
+
+  function ${1:directive_name}$0(){
+    return {
+      templateUrl: 'path/to/template',
+      restrict: 'E',
+      controller: ControllerName,
+      controllerAs: vm,
+    }
+  }
+})();

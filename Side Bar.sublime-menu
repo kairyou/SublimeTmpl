@@ -42,6 +42,36 @@
                     "type": "model_spec",
                     "syntax": "ruby",
                 }
+            },
+
+            {
+                "id": "fac",
+                "caption": "Factory",
+                "command": "sublime_tmpl",
+                "args": {
+                    "type": "factory",
+                    "syntax": "javascript",
+                }
+            },
+
+            {
+                "id": "dir",
+                "caption": "Directive",
+                "command": "sublime_tmpl",
+                "args": {
+                    "type": "directive",
+                    "syntax": "javascript",
+                }
+            },
+
+            {
+                "id": "con",
+                "caption": "Controller",
+                "command": "sublime_tmpl",
+                "args": {
+                    "type": "controller",
+                    "syntax": "javascript",
+                }
             }
         ]
     }
