@@ -30,6 +30,6 @@
 
     {
         "caption": "Templates: Create Component", "command": "sublime_tmpl",
-        "args": {"type": "component", "syntax": "javascript"}
+        "args": {"type": "component", "syntax": "js-babel"}
     }
 ]

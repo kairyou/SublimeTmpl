@@ -54,7 +54,7 @@
                                 "command": "sublime_tmpl",
                                 "args": {
                                     "type": "component",
-                                    "syntax": "javascript",
+                                    "syntax": "js-babel",
                                 }
                             },
 
