@@ -134,7 +134,7 @@ FAQ
 --------------------
 Source: [https://github.com/kairyou/SublimeTmpl][0]
 
-Docs: [中文文档](http://www.fantxi.com/blog/archives/sublime-template-engine-sublimetmpl/)
+Docs: [中文文档](https://xhl.me/archives/sublime-template-engine-sublimetmpl/)
 
 
 [0]: https://github.com/kairyou/SublimeTmpl
