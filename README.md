@@ -63,6 +63,13 @@ To disable all default shortcuts, set value to `all`.
 - custom template files
 
     > put your custom template files in `Packages/User/SublimeTmpl/templates`  
+    
+- custom template file path
+
+    > your could set your custom template file path in `settings - user` with 
+    ``` json
+    "custom_path": "[FullPathToYourSublimePackagesPath]/User/[YourCustomTmplName]/templates",
+    ```
 
 - `*.tmpl` file support `${date}` variable
 
