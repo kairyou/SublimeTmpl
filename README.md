@@ -34,7 +34,9 @@ Custom settings (**Recommend*): `Preferences` > `Package Settings` > `SublimeTmp
 
 Default template files: `Packages/SublimeTmpl/templates`
 
-Custom template files (**Recommend*): `Packages/User/SublimeTmpl/templates/`
+Custom template files (**Recommend**): `Packages/User/SublimeTmpl/templates/`
+
+Project-specific template files (ST3 only): "template_folder" key within your sublime-project file.
 
 
 Default key bindings
@@ -134,7 +136,7 @@ FAQ
 --------------------
 Source: [https://github.com/kairyou/SublimeTmpl][0]
 
-Docs: [中文文档](https://xhl.me/archives/sublime-template-engine-sublimetmpl/)
+Docs: [中文文档](http://www.fantxi.com/blog/archives/sublime-template-engine-sublimetmpl/)
 
 
 [0]: https://github.com/kairyou/SublimeTmpl

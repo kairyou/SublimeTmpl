@@ -9,6 +9,14 @@
                 "children":
                 [
                     {
+                        "id": "project",
+                        "caption": "Project Specific",
+                        "command": "sublime_tmpl",
+                        "args": {
+                            "type": "project"
+                        }
+                    },
+                    {
                         "id": "html",
                         "caption": "HTML",
                         "command": "sublime_tmpl",

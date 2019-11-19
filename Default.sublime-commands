@@ -1,5 +1,9 @@
 [
     {
+        "caption": "Tmpl: Create project-specific", "command": "sublime_tmpl",
+        "args": {"type": "project"}
+    },
+    {
         "caption": "Tmpl: Create html", "command": "sublime_tmpl",
         "args": {"type": "html"}
     },

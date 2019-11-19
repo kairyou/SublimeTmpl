@@ -31,8 +31,42 @@ DISABLE_KEYMAP = None
 
 class SublimeTmplCommand(sublime_plugin.TextCommand):
 
-    def run(self, edit, type='html', paths = [None]):
+    def run(self, edit, type='html', paths = None):
         view = self.view
+
+        if type == 'project':
+            # need to present project-specific templates for user to select
+
+            projectFolder = self.get_project_template_folder()
+            if not projectFolder:
+                sublime.message_dialog('No "template_folder" specified in current project file')
+                return False
+
+            self.project_templates = []
+            for dirpath, dirnames, filenames in os.walk(projectFolder):
+                # for dirname in dirnames:
+                #     self.project_templates.append(dirname)
+                for filename in filenames:
+                    if filename.endswith(".tmpl"):
+                        self.project_templates.append((dirpath, os.path.splitext(filename)[0]))
+            
+            options = []
+            for (path, name) in self.project_templates:
+                options.append("Template: {}".format(name))
+
+            if not options:
+                sublime.message_dialog('No templates found in current project template folder {0}'.format(projectFolder))
+                return False
+
+            self.view.window().show_quick_panel(
+                options,
+                selected_index=0,
+                on_select=self.run_project_template,
+                on_highlight=None,
+            )
+
+            return
+
         opts = self.get_settings(type)
         tmpl = self.get_code(type)
 
@@ -47,6 +81,10 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
         # sublime.set_timeout(lambda: self.set_syntax(opts), 1000)
         self.set_code(tmpl)
 
+    def run_project_template(self, index):
+        self.view.run_command('sublime_tmpl',
+                                    args={'type': self.project_templates[index][1]})
+
     def get_settings(self, type=None):
         settings = sublime.load_settings(PACKAGE_NAME + '.sublime-settings')
 
@@ -59,49 +97,83 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
         return opts
 
     def open_file(self, path, mode='r'):
-        fp = open(path, mode)
-        code = fp.read()
-        fp.close()
+        with open(path, mode) as fp:
+            code = fp.read()
         return code
+
+    @staticmethod
+    def is_resource_path(path):
+        """ Check if an absolute path points to an ST3 resource folder """
+        if IS_GTE_ST3:
+            return os.path.commonprefix([path, sublime.packages_path()]) == sublime.packages_path()
+        else:
+            return False   # doesn't apply for ST2
+
+    @staticmethod
+    def format_as_resource_path(path):
+        """ Convert an absolute path to an ST3 resource path """
+        return os.path.join('Packages', os.path.relpath(path, sublime.packages_path()))
+
+    def get_project_template_folder(self):
+        """ Get project template folder (if one is set) """
+        project_tmpl_dir = None   # only available for ST3 - per-project template folders
+
+        if IS_GTE_ST3:
+            project_tmpl_dir = self.view.window().project_data().get('template_folder', None)
+
+        return project_tmpl_dir
+
+    def get_template_folders(self):
+        """ Returns list of paths expected to contain templates.
+            Paths are absolute, additional conversion needed for ST3 resource paths """
+        project_tmpl_dir = self.get_project_template_folder()
+        tmpl_dir = os.path.join(PACKAGES_PATH, PACKAGE_NAME, TMLP_DIR)
+        user_tmpl_dir = os.path.join(PACKAGES_PATH, 'User', PACKAGE_NAME, TMLP_DIR)
+
+        if project_tmpl_dir is not None:
+           project_tmpl_dir = os.path.abspath(project_tmpl_dir)
+
+        paths = []
+
+        # inserted in order we want to search (more specific -> more general)
+        if project_tmpl_dir is not None and os.path.exists(project_tmpl_dir):
+            paths.append(project_tmpl_dir)
+        if os.path.exists(user_tmpl_dir):
+            paths.append(user_tmpl_dir)
+        if os.path.exists(tmpl_dir):
+            paths.append(tmpl_dir)
+        
+        return paths
 
     def get_code(self, type):
         code = ''
         file_name = "%s.tmpl" % type
-        isIOError = False
+        templateFound = False
 
-        if IS_GTE_ST3:
-            tmpl_dir = 'Packages/' + PACKAGE_NAME + '/' + TMLP_DIR + '/'
-            user_tmpl_dir = 'Packages/User/' + \
-                PACKAGE_NAME + '/' + TMLP_DIR + '/'
-            # tmpl_dir = os.path.join('Packages', PACKAGE_NAME , TMLP_DIR)
-        else:
-            tmpl_dir = os.path.join(PACKAGES_PATH, PACKAGE_NAME, TMLP_DIR)
-            user_tmpl_dir = os.path.join(
-                PACKAGES_PATH, 'User', PACKAGE_NAME, TMLP_DIR)
+        paths = self.get_template_folders()
+        print(sublime.packages_path())
+        print(sublime.installed_packages_path())
 
-        self.user_tmpl_path = os.path.join(user_tmpl_dir, file_name)
-        self.tmpl_path = os.path.join(tmpl_dir, file_name)
-
-        if IS_GTE_ST3:
-            try:
-                code = sublime.load_resource(self.user_tmpl_path)
-            except IOError:
+        for path in paths:
+            fullpath = os.path.join(path, file_name)
+            if self.is_resource_path(fullpath):
                 try:
-                    code = sublime.load_resource(self.tmpl_path)
+                    fullpath = self.format_as_resource_path(fullpath)
+                    code = sublime.load_resource(fullpath)
+                    templateFound = True
                 except IOError:
-                    isIOError = True
-        else:
-            if os.path.isfile(self.user_tmpl_path):
-                code = self.open_file(self.user_tmpl_path)
-            elif os.path.isfile(self.tmpl_path):
-                code = self.open_file(self.tmpl_path)
+                    pass  # try the next folder
             else:
-                isIOError = True
+                if os.path.isfile(fullpath):
+                    code = self.open_file(fullpath)
+                    templateFound = True
 
-        # print(self.tmpl_path)
-        if isIOError:
-            sublime.message_dialog('[Warning] No such file: ' + self.tmpl_path
-                                   + ' or ' + self.user_tmpl_path)
+            if templateFound:
+                break
+
+        if not templateFound:
+            sublime.message_dialog('[Warning] No such file {0} found in paths {1}: '.format(
+                file_name, paths))
 
         return self.format_tag(code)
 
@@ -131,7 +203,10 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
         code = re.sub(r"(?<!\\)\${(?!\d)", '\${', code)
         return code
 
-    def creat_tab(self, view, paths = [None]):
+    def creat_tab(self, view, paths = None):
+        if paths is None:
+            paths = [None]
+
         win = view.window()
         # tab = win.open_file('/tmp/123')
         tab = win.new_file()
@@ -271,10 +346,9 @@ def extract_zip_resource(path_to_zip, file_list, extract_dir=None):
         return
     # print(extract_dir)
     if os.path.exists(path_to_zip):
-        z = zipfile.ZipFile(path_to_zip, 'r')
-        for f in z.namelist():
-            # if f.endswith('.tmpl'):
-            if f in file_list:
-                # print(f)
-                z.extract(f, extract_dir)
-        z.close()
+        with zipfile.ZipFile(path_to_zip, 'r') as z:
+            for f in z.namelist():
+                # if f.endswith('.tmpl'):
+                if f in file_list:
+                    # print(f)
+                    z.extract(f, extract_dir)
