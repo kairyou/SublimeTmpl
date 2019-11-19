@@ -29,6 +29,45 @@ PACKAGES_PATH = sublime.packages_path()  # for ST2
 IS_GTE_ST3 = int(sublime.version()[0]) >= 3
 DISABLE_KEYMAP = None
 
+
+def get_replace_pattern(settings):
+    """ Set replacement pattern to look for in template files """
+    replace_pattern = settings.get('template_replace_pattern')
+
+    # sanity check the pattern
+    try:
+        x = replace_pattern % "test"
+    except Exception as ex:
+        sublime.message_dialog("[Warning] Replace pattern {0} doesn't seem to work: {1}".format(replace_pattern, ex))
+        raise
+
+    return replace_pattern
+
+class MergedSettings(sublime.Settings):
+    """ Helper class to merge project and plugin settings.
+        Attempts to use project overrides first before defaulting back to plugin settings. """
+    def __init__(self, view):
+        self.fallback_settings = {}
+        self.settings = sublime.load_settings(PACKAGE_NAME + '.sublime-settings')
+        if IS_GTE_ST3:
+            self.fallback_settings = self.settings
+            self.settings = view.settings().get("SublimeTmpl", {})  # project overrides
+     
+    def get(self, name, default=None):
+        return self.settings.get(name, self.fallback_settings.get(name, default))
+        
+
+def get_settings(view, type=None):
+    """ Get settings object, with any project-specific overrides merged in """
+    settings = MergedSettings(view)
+    
+    if not type:
+        return settings
+
+    opts = settings.get(type, [])
+    return opts
+
+
 class SublimeTmplCommand(sublime_plugin.TextCommand):
 
     def run(self, edit, type='html', paths = None):
@@ -42,12 +81,13 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
                 sublime.message_dialog('No "template_folder" specified in current project file')
                 return False
 
+            template_extension = self.get_template_extension()
             self.project_templates = []
             for dirpath, dirnames, filenames in os.walk(projectFolder):
                 # for dirname in dirnames:
                 #     self.project_templates.append(dirname)
                 for filename in filenames:
-                    if filename.endswith(".tmpl"):
+                    if os.path.splitext(filename)[1] == template_extension:
                         self.project_templates.append((dirpath, os.path.splitext(filename)[0]))
             
             options = []
@@ -63,11 +103,11 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
                 selected_index=0,
                 on_select=self.run_project_template,
                 on_highlight=None,
-            )
+                )
 
             return
 
-        opts = self.get_settings(type)
+        opts = get_settings(self.view, type)
         tmpl = self.get_code(type)
 
         # print('global', DISABLE_KEYMAP, IS_GTE_ST3);
@@ -84,19 +124,9 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
     def run_project_template(self, index):
         self.view.run_command('sublime_tmpl',
                                     args={'type': self.project_templates[index][1]})
-
-    def get_settings(self, type=None):
-        settings = sublime.load_settings(PACKAGE_NAME + '.sublime-settings')
-
-        if not type:
-            return settings
-
-        # print(settings.get('html')['syntax'])
-        opts = settings.get(type, [])
-        # print(opts)
-        return opts
-
-    def open_file(self, path, mode='r'):
+    
+    @staticmethod
+    def open_file(path, mode='r'):
         with open(path, mode) as fp:
             code = fp.read()
         return code
@@ -113,15 +143,6 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
     def format_as_resource_path(path):
         """ Convert an absolute path to an ST3 resource path """
         return os.path.join('Packages', os.path.relpath(path, sublime.packages_path()))
-
-    def get_project_template_folder(self):
-        """ Get project template folder (if one is set) """
-        project_tmpl_dir = None   # only available for ST3 - per-project template folders
-
-        if IS_GTE_ST3:
-            project_tmpl_dir = self.view.window().project_data().get('template_folder', None)
-
-        return project_tmpl_dir
 
     def get_template_folders(self):
         """ Returns list of paths expected to contain templates.
@@ -145,14 +166,19 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
         
         return paths
 
+    def get_project_template_folder(self):
+        """ Get project template folder (if one is set) """
+        return get_settings(self.view).get('template_folder', None)
+
+    def get_template_extension(self):
+        return get_settings(self.view).get('template_extension', '.tmpl')
+
     def get_code(self, type):
         code = ''
-        file_name = "%s.tmpl" % type
+        file_name = "%s%s" % (type, self.get_template_extension())
         templateFound = False
 
         paths = self.get_template_folders()
-        print(sublime.packages_path())
-        print(sublime.installed_packages_path())
 
         for path in paths:
             fullpath = os.path.join(path, file_name)
@@ -178,29 +204,32 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
         return self.format_tag(code)
 
     def format_tag(self, code):
+        """ Replace matched patterns in file contents """
         win = self.view.window()
         code = code.replace('\r', '') # replace \r\n -> \n
         # format
-        settings = self.get_settings()
+        settings = get_settings(self.view)
+        pattern = get_replace_pattern(settings)
+ 
         format = settings.get('date_format', '%Y-%m-%d')
         date = datetime.datetime.now().strftime(format)
         if not IS_GTE_ST3:
             code = code.decode('utf8') # for st2 && Chinese characters
-        code = code.replace('${date}', date)
+        code = code.replace(pattern.replace("%s", "date"), date)
 
         attr = settings.get('attr', {})
         for key in attr:
-            code = code.replace('${%s}' % key, attr.get(key, ''))
+            code = code.replace(pattern % key, attr.get(key, ''))
 
-        # print(hasattr(win, 'extract_variables'))
-        # print(win.extract_variables(), win.project_data())
         if settings.get('enable_project_variables', False) and hasattr(win, 'extract_variables'):
             variables = win.extract_variables()
-            for key in ['project_base_name', 'project_path', 'platform']:
-                code = code.replace('${%s}' % key, variables.get(key, ''))
+            project_variables = settings.get('project_variables', {})
+            for key in project_variables:
+                code = code.replace(pattern % project_variables[key], variables.get(key, ''))
 
         # keep ${var..}
-        code = re.sub(r"(?<!\\)\${(?!\d)", '\${', code)
+        if pattern == "${%s}":
+            code = re.sub(r"(?<!\\)\${(?!\d)", '\${', code)
         return code
 
     def creat_tab(self, view, paths = None):
@@ -244,8 +273,9 @@ class SublimeTmplReplaceCommand(sublime_plugin.TextCommand):
 class SublimeTmplEventListener(sublime_plugin.EventListener):
     def __init__(self):
         self.unsaved_ids = {}
+
     def on_query_context(self, view, key, operator, operand, match_all):
-        settings = sublime.load_settings(PACKAGE_NAME + '.sublime-settings')
+        settings = get_settings(view)
         disable_keymap_actions = settings.get('disable_keymap_actions', '')
         # print ("key1: %s, %s" % (key, disable_keymap_actions))
         global DISABLE_KEYMAP
@@ -262,22 +292,26 @@ class SublimeTmplEventListener(sublime_plugin.EventListener):
         # print(name, ret)
         DISABLE_KEYMAP = True if not ret else False;
         return ret
+
     def on_activated(self, view):
         if view.file_name():
             return
-        settings = sublime.load_settings(PACKAGE_NAME + '.sublime-settings')
+        settings = get_settings(view)
         if settings.get('enable_file_variables_on_save', False):
             self.unsaved_ids[view.id()] = True
         # print('on_activated', self.unsaved_ids, view.id(), view.file_name())
+        
     def on_pre_save(self, view):
         if not view.id() in self.unsaved_ids:
             return
-        settings = sublime.load_settings(PACKAGE_NAME + '.sublime-settings')
+        settings = get_settings(view)
         if settings.get('enable_file_variables_on_save', False):
             filepath = view.file_name()
             filename = os.path.basename(filepath)
-            view.run_command('sublime_tmpl_replace', {'old': '${saved_filepath}', 'new': filepath})
-            view.run_command('sublime_tmpl_replace', {'old': '${saved_filename}', 'new': filename})
+            pattern = get_replace_pattern(settings)
+            variables = settings.get('file_variables_on_save', {})
+            view.run_command('sublime_tmpl_replace', {'old': pattern.replace("%s", variables.get('saved_filepath', '')), 'new': filepath})
+            view.run_command('sublime_tmpl_replace', {'old': pattern.replace("%s", variables.get('saved_filename', '')), 'new': filename})
             del self.unsaved_ids[view.id()]
 
 def plugin_loaded():  # for ST3 >= 3016
