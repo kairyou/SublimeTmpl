@@ -147,6 +147,7 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
     def get_template_folders(self):
         """ Returns list of paths expected to contain templates.
             Paths are absolute, additional conversion needed for ST3 resource paths """
+        PACKAGES_PATH = sublime.packages_path()
         project_tmpl_dir = self.get_project_template_folder()
         tmpl_dir = os.path.join(PACKAGES_PATH, PACKAGE_NAME, TMLP_DIR)
         user_tmpl_dir = os.path.join(PACKAGES_PATH, 'User', PACKAGE_NAME, TMLP_DIR)
