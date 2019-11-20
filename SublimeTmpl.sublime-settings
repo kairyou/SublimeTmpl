@@ -105,12 +105,28 @@
         "extension": "yaml"
     },
     "disable_keymap_actions": false, // "all"; "html,css"
-    "enable_project_variables": false, // ${project_base_name}, ${project_path} and ${platform}
-    "enable_file_variables_on_save": false, // ${saved_filename}, ${saved_filepath} on save file
+    "enable_project_variables": false,
+    "enable_file_variables_on_save": false,
     "date_format" : "%Y-%m-%d %H:%M:%S",
     "attr": {
         "author": "Your Name",
         "email": "you@example.org",
         "link": "http://example.org"
-    }
+    },
+    "project_variables": {
+        // Allows for use with other template formats, provide mapping here
+        // "tmpl_formatted_name": "current_template_name"
+        "project_base_name": "project_base_name",
+        "project_path": "project_path",
+        "platform": "platform"
+    },
+    
+    "file_variables_on_save": {
+        // Allows for use with other template formats, provide mapping here
+        // "tmpl_formatted_name": "current_template_name"
+        "saved_filename": "saved_filename",
+        "saved_filepath": "saved_filepath"
+    },
+    "template_replace_pattern": "${%s}",
+    "template_extension": ".tmpl"
 }

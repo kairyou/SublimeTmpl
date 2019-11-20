@@ -19,10 +19,10 @@ Install [Package Control][1]. Then `Package Control: Install Package`, look for 
 Usage
 -----
 
-- Creat file with menu
+- Create file with menu
    `File - New File (SublimeTmpl)`
 
-- Creat file with command
+- Create file with command
    use `cmd+shift+p` then look for `tmpl:`
 
 Settings
@@ -34,7 +34,9 @@ Custom settings (**Recommend*): `Preferences` > `Package Settings` > `SublimeTmp
 
 Default template files: `Packages/SublimeTmpl/templates`
 
-Custom template files (**Recommend*): `Packages/User/SublimeTmpl/templates/`
+Custom template files (**Recommend**): `Packages/User/SublimeTmpl/templates/`
+
+Project-specific template files (ST3 only): via `settings`: `SublimeTmpl`: `template_folder` key within your sublime-project file (see "Features added" below)
 
 
 Default key bindings
@@ -62,7 +64,8 @@ To disable all default shortcuts, set value to `all`.
 
 - custom template files
 
-    > put your custom template files in `Packages/User/SublimeTmpl/templates`  
+    > put your custom template files in `Packages/User/SublimeTmpl/templates` 
+    > Project-specific template files can be specified in project files, along with overriding other templating options.
 
 - `*.tmpl` file support `${date}` variable
 
@@ -95,6 +98,38 @@ It is recommended that you put your own custom settings in `settings - user`.  P
 ```
 
     > The `*.tmpl` file will support `${author}` `${email}` `${link}` `${hello}` variables.
+
+- Project specific overrides via `SublimeTmpl` attribute in sublime-project file.
+    >
+``` json
+    "settings":
+    {
+        "SublimeTmpl":
+        {
+            "template_folder": "Path\\to\\some\\custom\\template\\folder",
+            "template_replace_pattern": "{{%s}}",
+            "enable_project_variables": true,
+            "enable_file_variables_on_save": true,
+            "attr": {  // Fully overrides "attr" settings (i.e. elements missing here will not attempt to be replaced in template)
+                "author": "Alternative Name"
+            },
+            "project_variables": {
+                // Allows for use with other template formats, provide mapping here
+                // "tmpl_formatted_name": "current_template_name"
+                "project_base_name": "projectbase",
+                "project_path": "projectpath",
+                "platform": "plat"
+            },
+            
+            "file_variables_on_save": {
+                // Allows for use with other template formats, provide mapping here
+                // "tmpl_formatted_name": "current_template_name"
+                "saved_filename": "name",
+                "saved_filepath": "filepath"
+            },
+        },
+    },
+```
 
 *Detailed Instructions for Sublime Newbies
 -----------------------------------------
@@ -134,7 +169,7 @@ FAQ
 --------------------
 Source: [https://github.com/kairyou/SublimeTmpl][0]
 
-Docs: [中文文档](https://xhl.me/archives/sublime-template-engine-sublimetmpl/)
+Docs: [中文文档](http://www.fantxi.com/blog/archives/sublime-template-engine-sublimetmpl/)
 
 
 [0]: https://github.com/kairyou/SublimeTmpl
