@@ -164,7 +164,10 @@ FAQ
 ---
 - SublimeTmpl not work after update the package.
 
-    Please open `Preferences` / `Settings - User`, remove "SublimeTmpl" from `ignored_packages`.
+  Please open `Preferences` / `Settings - User`, remove "SublimeTmpl" from `ignored_packages`.
+- Alert message `Replace pattern None doesn't seem to work: unsupported operand type(s) for %: 'NoneType' and 'str'`
+
+  Please restart Sublime Text and try again.
 
 --------------------
 Source: [https://github.com/kairyou/SublimeTmpl][0]
