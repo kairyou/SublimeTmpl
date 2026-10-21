@@ -38,6 +38,49 @@ Custom template files (**Recommend**): `Packages/User/SublimeTmpl/templates/`
 
 Project-specific template files (ST3 only): via `settings`: `SublimeTmpl`: `template_folder` key within your sublime-project file (see "Features added" below)
 
+Custom templates and variables
+-----------------------------
+
+1. Open `Preferences > Browse Packages` and create `User/SublimeTmpl/templates/python_note.tmpl`:
+
+   ```python
+   # ${description}
+   # Author: ${author}
+
+   $0
+   ```
+
+2. Add the template type and variables in `SublimeTmpl > Settings - User` (merge these entries into your existing settings):
+
+   ```json
+   {
+       "python_note": {
+           "syntax": "Packages/Python/Python.tmLanguage",
+           "extension": "py"
+       },
+       "attr": {
+           "author": "Your Name",
+           "description": "A new Python script"
+       }
+   }
+   ```
+
+   The type `python_note` must match the template filename. `${description}` and `${author}` are replaced with values from `attr`; `$0` sets the cursor position. On ST3/ST4, the plugin uses the corresponding `.sublime-syntax` resource when available. Custom languages require an installed syntax package and its resource path.
+
+3. Create `Packages/User/SublimeTmpl.sublime-commands` to add a command palette entry:
+
+   ```json
+   [
+       {
+           "caption": "Tmpl: Create Python note",
+           "command": "sublime_tmpl",
+           "args": {"type": "python_note"}
+       }
+   ]
+   ```
+
+   Run `Tmpl: Create Python note` from the command palette. You can also add a key binding using the same `command` and `args`.
+
 
 Default key bindings
 --------------------
@@ -55,7 +98,7 @@ If you’re unhappy with default keymap, you can disable keyboard shortcuts with
 
 Use a comma-separated list of action names which default keyboard shortcuts should be disabled. For example, if you want to disable creat `html` and `css` shortcuts, your must set the following value:
 
-    "disabled_keymap_actions": "html, css"
+    "disable_keymap_actions": "html, css"
 
 To disable all default shortcuts, set value to `all`.
 
