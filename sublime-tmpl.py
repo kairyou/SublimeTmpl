@@ -12,6 +12,7 @@ import datetime
 import zipfile
 import re
 import shutil
+import io
 
 PACKAGE_NAME = 'SublimeTmpl'
 TMLP_DIR = 'templates'
@@ -127,7 +128,8 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
     
     @staticmethod
     def open_file(path, mode='r'):
-        with open(path, mode) as fp:
+        reader = io.open(path, mode, encoding='utf-8') if IS_GTE_ST3 else open(path, mode)
+        with reader as fp:
             code = fp.read()
         return code
 
@@ -142,7 +144,7 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
     @staticmethod
     def format_as_resource_path(path):
         """ Convert an absolute path to an ST3 resource path """
-        return os.path.join('Packages', os.path.relpath(path, sublime.packages_path()))
+        return 'Packages/' + os.path.relpath(path, sublime.packages_path()).replace(os.sep, '/')
 
     def get_template_folders(self):
         """ Returns list of paths expected to contain templates.
@@ -162,7 +164,7 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
             paths.append(project_tmpl_dir)
         if os.path.exists(user_tmpl_dir):
             paths.append(user_tmpl_dir)
-        if os.path.exists(tmpl_dir):
+        if IS_GTE_ST3 or os.path.exists(tmpl_dir):
             paths.append(tmpl_dir)
         
         return paths
@@ -183,17 +185,16 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
 
         for path in paths:
             fullpath = os.path.join(path, file_name)
-            if self.is_resource_path(fullpath):
+            if os.path.isfile(fullpath):
+                code = self.open_file(fullpath)
+                templateFound = True
+            elif self.is_resource_path(fullpath):
                 try:
                     fullpath = self.format_as_resource_path(fullpath)
                     code = sublime.load_resource(fullpath)
                     templateFound = True
                 except IOError:
                     pass  # try the next folder
-            else:
-                if os.path.isfile(fullpath):
-                    code = self.open_file(fullpath)
-                    templateFound = True
 
             if templateFound:
                 break
@@ -230,7 +231,7 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
 
         # keep ${var..}
         if pattern == "${%s}":
-            code = re.sub(r"(?<!\\)\${(?!\d)", '\${', code)
+            code = re.sub(r"(?<!\\)\${(?!\d)", r'\${', code)
         return code
 
     def creat_tab(self, view, paths = None):
@@ -254,12 +255,33 @@ class SublimeTmplCommand(sublime_plugin.TextCommand):
         v = self.tab
         # syntax = self.view.settings().get('syntax') # from current file
         syntax = opts[KEY_SYNTAX] if KEY_SYNTAX in opts else ''
+        if IS_GTE_ST3 and syntax.endswith('.tmLanguage'):
+            modern_syntax = syntax[:-len('.tmLanguage')] + '.sublime-syntax'
+            try:
+                sublime.load_resource(modern_syntax)
+            except IOError:
+                pass  # ST2 and older ST3 packages use .tmLanguage files.
+            else:
+                syntax = modern_syntax
         # print(syntax) # tab.set_syntax_file('Packages/Diff/Diff.tmLanguage')
         v.set_syntax_file(syntax)
 
         # print(opts[KEY_FILE_EXT])
         if KEY_FILE_EXT in opts:
             v.settings().set('default_extension', opts[KEY_FILE_EXT])
+
+
+class SublimeTmplOpenKeymapCommand(sublime_plugin.WindowCommand):
+    def run(self):
+        platform = {'osx': 'OSX', 'linux': 'Linux', 'windows': 'Windows'}[sublime.platform()]
+        filename = 'Default (%s).sublime-keymap' % platform
+        if IS_GTE_ST3:
+            self.window.run_command('open_resource', {
+                'resource': 'Packages/' + PACKAGE_NAME + '/' + filename
+            })
+        else:
+            self.window.open_file(os.path.join(sublime.packages_path(), PACKAGE_NAME, filename))
+
 
 class SublimeTmplReplaceCommand(sublime_plugin.TextCommand):
     def run(self, edit, old, new):

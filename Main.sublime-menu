@@ -129,27 +129,7 @@
                             },
                             { "caption": "-" },
                             {
-                                "command": "open_file",
-                                "args": {
-                                    "file": "${packages}/SublimeTmpl/Default (OSX).sublime-keymap",
-                                    "platform": "OSX"
-                                },
-                                "caption": "Key Bindings – Default"
-                            },
-                            {
-                                "command": "open_file",
-                                "args": {
-                                    "file": "${packages}/SublimeTmpl/Default (Linux).sublime-keymap",
-                                    "platform": "Linux"
-                                },
-                                "caption": "Key Bindings – Default"
-                            },
-                            {
-                                "command": "open_file",
-                                "args": {
-                                    "file": "${packages}/SublimeTmpl/Default (Windows).sublime-keymap",
-                                    "platform": "Windows"
-                                },
+                                "command": "sublime_tmpl_open_keymap",
                                 "caption": "Key Bindings – Default"
                             },
                             {
